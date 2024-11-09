@@ -1,26 +1,25 @@
-
-
-CREATE TABLE Año_electivo
+CREATE TABLE Anio_electivo
 (
  Id_Bloque_electivo int NOT NULL,
  Fecha_inicio       date NOT NULL,
  Fecha_fin          date NOT NULL,
- CONSTRAINT PK_9 PRIMARY KEY ( Id_Bloque_electivo )
-);
+ CONSTRAINT PK_9 PRIMARY KEY ( Id_Bloque_electivo ));
+
 CREATE TABLE Persona
 (
  Id_persona            int NOT NULL,
  Nombre                char(50) NOT NULL,
- Segundo_nombre			char(50) null,
- apellido1				char(50) not null,
- apellido2				char(50) not null,
- Tipo_identificacion char(50) NOT NULL,
- Numero documento    char(50) NOT NULL,
+ Segundo_nombre        char(50) NULL,
+ apellido1             char(50) NOT NULL,
+ apellido2             char(50) NOT NULL,
+ Tipo_identificacion   char(50) NOT NULL,
+ Numero_documento      char(50) NOT NULL,  -- Cambié "Numero documento" a "Numero_documento"
  Direccion             char(50) NOT NULL,
  Celular               char(50) NOT NULL,
  Cargo                 char(50) NOT NULL,
  CONSTRAINT PK_4 PRIMARY KEY ( Id_persona )
 );
+
 CREATE TABLE Institucion
 (
  Id_institucion int NOT NULL,
@@ -32,6 +31,7 @@ CREATE TABLE Institucion
  Direccion      char(50) NOT NULL,
  CONSTRAINT PK_2 PRIMARY KEY ( Id_institucion )
 );
+
 CREATE TABLE Aula
 (
  Id_Aula        int NOT NULL,
@@ -47,9 +47,6 @@ CREATE TABLE Aula
  CONSTRAINT FK_10 FOREIGN KEY ( Id_institucion ) REFERENCES Institucion ( Id_institucion )
 );
 
-
-
-
 CREATE TABLE AsistenciaTutor
 (
  ID_AT   int NOT NULL,
@@ -64,14 +61,14 @@ CREATE TABLE Estudiantes
 (
  Id_Std                  int NOT NULL,
  Nombre                  char(50) NOT NULL,
- Segundo_nombre			char(50) null,
- apellido1				char(50) not null,
- apellido2				char(50) not null,
- Tipo_Identicficacion  char(50) NOT NULL,
- Numero_identificacion char(50) NOT NULL,
+ Segundo_nombre          char(50) NULL,
+ apellido1               char(50) NOT NULL,
+ apellido2               char(50) NOT NULL,
+ Tipo_Identificacion     char(50) NOT NULL,  -- Cambié "Tipo_Identicficacion" a "Tipo_Identificacion"
+ Numero_identificacion   char(50) NOT NULL,
  Genero                  char(50) NOT NULL,
  Estrato                 int NOT NULL,
- F_nacimiento          date NOT NULL,
+ F_nacimiento            date NOT NULL,
  Id_Salon                int NOT NULL,
  CONSTRAINT PK_1 PRIMARY KEY ( Id_Std ),
  CONSTRAINT FK_1 FOREIGN KEY ( Id_Salon ) REFERENCES Aula ( Id_Aula )
@@ -80,19 +77,16 @@ CREATE TABLE Estudiantes
 CREATE TABLE Notas
 (
  Id_Notas           int NOT NULL,
- Nota_1           float4 NOT NULL,
- Nota_2           float4 NOT NULL,
- Nota_3           float4 NOT NULL,
- Nota_4           float4 NOT NULL,
+ Nota_1             float4 NOT NULL,
+ Nota_2             float4 NOT NULL,
+ Nota_3             float4 NOT NULL,
+ Nota_4             float4 NOT NULL,
  Id_Estudiante      int NOT NULL,
  Id_Bloque_electivo int NOT NULL,
  CONSTRAINT PK_5 PRIMARY KEY ( Id_Notas ),
  CONSTRAINT FK_2 FOREIGN KEY ( Id_Estudiante ) REFERENCES Estudiantes ( Id_Std ),
  CONSTRAINT FK_10_1 FOREIGN KEY ( Id_Bloque_electivo ) REFERENCES Año_electivo ( Id_Bloque_electivo )
 );
-
-
-
 
 CREATE TABLE Horario
 (
@@ -108,8 +102,6 @@ CREATE TABLE Horario
  CONSTRAINT FK_8 FOREIGN KEY ( Id_Aula ) REFERENCES Aula ( Id_Aula )
 );
 
-
-
 CREATE TABLE Asistencia
 (
  ID_Asis int NOT NULL,
@@ -121,6 +113,3 @@ CREATE TABLE Asistencia
  CONSTRAINT FK_3 FOREIGN KEY ( Id_Std ) REFERENCES Estudiantes ( Id_Std ),
  CONSTRAINT FK_4 FOREIGN KEY ( Id_Aula ) REFERENCES Aula ( Id_Aula )
 );
-
-
-

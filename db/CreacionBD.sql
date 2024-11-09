@@ -1,6 +1,6 @@
 -- Database: Flake
 
-DROP DATABASE IF EXISTS "Flake";
+--DROP DATABASE IF EXISTS "Flake";
 
 CREATE DATABASE "Flake"
     WITH
