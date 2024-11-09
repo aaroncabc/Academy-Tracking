@@ -21,10 +21,10 @@ def Login(identification:str)->bool:
     else:
         return False
 
-def Create_Account(First_name: str, Second_name: str, First_lastname: str, Second_lastname: str, Id_Type: str, Identification: str, Address: str, Type_person: str) -> bool:
+def Create_Account(First_name: str, Second_name: str, First_lastname: str, Second_lastname: str, Id_Type: str, Identification: str, Address: str, Type_person: str, Cellphone:str) -> bool:
     with engine.connect() as conexion:
 
-        if any(map(str.isdigit, [First_name, Second_name, First_lastname, Second_lastname, Id_Type, Type_person])) or Identification.isalpha():
+        if any(map(str.isdigit, [First_name, Second_name, First_lastname, Second_lastname, Id_Type, Type_person])) or Identification.isalpha() or Cellphone.isalpha():
             return False 
 
         if any(map(lambda x: x.strip() == '', [First_name, Second_name, First_lastname, Second_lastname, Id_Type, Type_person, Address,Identification])):
@@ -45,8 +45,28 @@ def Create_Account(First_name: str, Second_name: str, First_lastname: str, Secon
         if user_count > 0:
             return False  
 
-        
+        last_id_result = conexion.execute(text("SELECT COALESCE(MAX(Id_persona), 0) FROM Persona"))
+        last_id = last_id_result.scalar()  
+
+        new_id = last_id + 1
+
+        query = text("INSERT INTO Persona (Id_persona, Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_identificacion, Numero_documento, Direccion, Celular, Cargo) VALUES (:id_persona, :first_name, :second_name, :first_lastname, :second_lastname, :id_type, :identification, :address, :cell, :type_person)")
+        conexion.execute(query, {
+            "id_persona": new_id,
+            "first_name": First_name,
+            "second_name": Second_name,
+            "first_lastname": First_lastname,
+            "second_lastname": Second_lastname,
+            "id_type": Id_Type,
+            "identification": Identification,
+            "address": Address,
+            "cell": Cellphone,
+            "type_person": Type_person
+        })
+
         return True
+
+
 
 
                      
