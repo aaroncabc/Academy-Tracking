@@ -2,13 +2,7 @@ from sqlalchemy import create_engine,text
 
 # Crear la conexión usando el driver `pg8000`
 engine = create_engine("postgresql+pg8000://camilo_dlr:Camiloandres189_@localhost/flake")
-
-with engine.connect() as conexion:
-            list_tuple_id = conexion.execute(text("SELECT * FROM persona WHERE cargo = 'Administrador' "))
-            for i in list_tuple_id:
-                 print(i)
             
-
 def Login(identification:str)->bool:
 
     if identification.isdigit():
@@ -66,6 +60,19 @@ def Create_Account(First_name: str, Second_name: str, First_lastname: str, Secon
 
         return True
 
+def update_identification(cell_number: str, new_identification: str) -> bool:
+    with engine.connect() as conexion:
+    
+        check_query = text("SELECT COUNT(*) FROM persona WHERE celular = :cell_number")
+        result = conexion.execute(check_query, {"cell_number": cell_number})
+        
+        if result.scalar() == 0:
+            return False
+        
+        update_query = text("UPDATE persona SET numero_documento = :new_identification WHERE celular = :cell_number")
+        conexion.execute(update_query, {"new_identification": new_identification, "cell_number": cell_number})
+        
+        return True
 
 
 
