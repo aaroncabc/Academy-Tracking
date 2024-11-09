@@ -45,12 +45,12 @@ def Create_Account(First_name: str, Second_name: str, First_lastname: str, Secon
         if user_count > 0:
             return False  
 
-        last_id_result = conexion.execute(text("SELECT COALESCE(MAX(Id_persona), 0) FROM Persona"))
+        last_id_result = conexion.execute(text("SELECT COALESCE(MAX(id_persona), 0) FROM persona"))
         last_id = last_id_result.scalar()  
 
         new_id = last_id + 1
 
-        query = text("INSERT INTO Persona (Id_persona, Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_identificacion, Numero_documento, Direccion, Celular, Cargo) VALUES (:id_persona, :first_name, :second_name, :first_lastname, :second_lastname, :id_type, :identification, :address, :cell, :type_person)")
+        query = text("INSERT INTO persona (id_persona, nombre, segundo_nombre, apellido1, apellido2, tipo_identificacion, numero_documento, direccion, celular, cargo) VALUES (:id_persona, :first_name, :second_name, :first_lastname, :second_lastname, :id_type, :identification, :address, :cell, :type_person)")
         conexion.execute(query, {
             "id_persona": new_id,
             "first_name": First_name,
