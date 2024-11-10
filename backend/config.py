@@ -1,0 +1,4 @@
+SQLALCHEMY_DATABASE_URI = 'postgresql://Brayan:07072004@localhost/Flake'
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
