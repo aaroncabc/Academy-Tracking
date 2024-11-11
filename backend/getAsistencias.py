@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Table, MetaData, Column, Integer, Date, Boolean, ForeignKey,text
 from sqlalchemy.orm import sessionmaker
-from datetime import date
+from datetime import date,datetime
 
 # Información de conexión
 db_params = {
@@ -63,3 +63,25 @@ def obtener_lista_Alumnos(id_aula: int):
     finally:
         session.close()
         return lista_array
+
+def obtener_aulas_del_dia_byTutor(id_tutor: int):
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    days = {"1":"lunes","2":"martes","3":"miercoles","4":"jueves","5":"viernes","6":"sabado","7":"domingo"}
+    # Obtener la fecha actual
+    fecha_actual = datetime.now()
+
+    # Extraer el día
+    dia_actual = fecha_actual.isoweekday()
+    try:
+        lista = session.execute(text(f"SELECT id_aula, hora_i, hora_f FROM horario INNER JOIN aula on(horario.id_aula = aula.id_aula) WHERE aula.id_persona = {id_tutor} AND horario.dia_text = '{days[str(dia_actual)]}'"))
+        lista_array = lista._allrows
+        session.commit()
+        print("Registros obtenidos exitosamente en la tabla aula.")
+    except Exception as e:
+        session.rollback()
+        print(f"Error al obtener registros: {e}")
+    finally:
+        session.close()
+        return lista_array
+    
