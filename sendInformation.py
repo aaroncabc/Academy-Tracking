@@ -60,41 +60,15 @@ def insertar_asistencia_Alumno(id_std: int, fecha: date, asistio: bool, id_aula:
         session.close()
 
 
-def obtener_lista(id_aula: int): 
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    try:
-        lista = session.execute(text(f"SELECT id_std FROM estudiantes WHERE id_salon = {id_aula}"))
-        lista_array = lista._allrows
-        session.commit()
-        print("Registros obtenidos exitosamente en la tabla estudiantes.")
-    except Exception as e:
-        session.rollback()
-        print(f"Error al obtener registros: {e}")
-    finally:
-        session.close()
-        return lista_array
 
+# Función para insertar asistencia de un aula
 def insert_asistencia_Aula(id_aula: int,asistencias: list,fecha):
-    
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
         
         for key in asistencias:
-                nuevo_registro = {
-                'id_std': key,
-                'fecha': fecha,
-                'asistio': asistencias[key],
-                'id_aula': id_aula
-                }
-                last_id_result = session.execute(text("SELECT COALESCE(MAX(id_asis), 0) FROM asistencia"))
-                last_id = last_id_result.scalar()  
-                new_id = last_id + 1
-                nuevo_registro["id_asis"] = new_id
-                # Insertar el nuevo registro
-                insert_stmt = asistencia_table.insert().values(nuevo_registro)
-                session.execute(insert_stmt)
+                insertar_asistencia_Alumno(key,fecha,asistencias[key],id_aula)
         session.commit()
         print("Registros insertados exitosamente en la tabla Asistencia.")
     except Exception as e:
@@ -102,3 +76,4 @@ def insert_asistencia_Aula(id_aula: int,asistencias: list,fecha):
         print(f"Error al insertar el registro: {e}")
     finally:
         session.close()
+
