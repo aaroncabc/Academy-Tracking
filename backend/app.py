@@ -1,7 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import getAsistencias as ga
 import sendAsistencias as sa
+import datetime
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
 
@@ -10,14 +11,30 @@ def get_data():
     data = {'message': 'Hello from Flask!'}
     return jsonify(data)
 
-@app.route('/api/asistencias', methods=['GET'])
+@app.route('/api/aulasTutor', methods=['GET'])
+def get_aulas():
+    tutor = request.args.get('tutor')
+    aulas = ga.obtener_aulas_tutor(tutor)
+    return jsonify(aulas)
+
+@app.route('/api/porTomar', methods=['GET'])
 def get_asistencias():
-    asistencias = ga.obtener_asistencias()
+    tutor = request.args.get('tutor')
+    asistencias = ga.obtener_aulas_del_dia_byTutor(tutor)
     return jsonify(asistencias)
 
-@app.route('/api/asistencias', methods=['POST'])
+@app.route('/api/listaAlumnos', methods=['GET'])
+def get_lista_alumnos():
+    aula = request.args.get('aula')
+    alumnos = ga.obtener_lista_Alumnos(aula)
+    return jsonify(alumnos)
+
+@app.route('/api/tomarAsistencia', methods=['POST'])
 def post_asistencias():
-    sa.insert_asistencia_Aula()
+    aula = request.args.get('aula')
+    asistencias = request.args.get('asistencias')
+    fecha = request.args.get('fecha')
+    sa.insert_asistencia_Aula(aula,asistencias,fecha)
     return 
 
 if __name__ == '__main__':
