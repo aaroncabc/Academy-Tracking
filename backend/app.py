@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import getAsistencias as ga
 import sendAsistencias as sa
+import getAulas as gau
 import datetime
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
@@ -11,8 +12,12 @@ def get_data():
     data = {'message': 'Hello from Flask!'}
     return jsonify(data)
 
-@app.route('/api/aulasTutor', methods=['GET'])
+@app.route('/api/aulas',methods=['GET'])
 def get_aulas():
+    return gau.obtener_aulas()
+    
+@app.route('/api/aulasTutor', methods=['GET'])
+def get_aulas_ByTutor():
     tutor = request.args.get('tutor')
     aulas = ga.obtener_aulas_tutor(tutor)
     return jsonify(aulas)

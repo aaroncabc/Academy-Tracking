@@ -39,7 +39,7 @@ def obtener_aulas_tutor(id_tutor: int):
     lista_array = []  # Inicializar lista_array antes del bloque try
 
     try:
-        lista = session.execute(text("SELECT aula.grupo,aula.grado,aula.aula.gradot,institucion.nombre FROM aula INNER JOIN institucion ON (aula.id_institucion = institucion.id_institucion) in WHERE id_persona = :id_tutor"), {"id_tutor": id_tutor})
+        lista = session.execute(text("SELECT aula.grupo,aula.grado,aula.gradot,institucion.nombre FROM aula INNER JOIN institucion ON (aula.id_institucion = institucion.id_institucion) WHERE id_persona = :id_tutor"), {"id_tutor": id_tutor})
         lista_array = [{"grupo": row[0],"grado":row[1],"gradot":row[2],"institucion":row[3]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
         session.commit()
         print("Registros obtenidos exitosamente en la tabla aula.")
