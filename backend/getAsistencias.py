@@ -58,8 +58,8 @@ def obtener_lista_Alumnos(id_aula: int):
     session = Session()
     lista_array = []
     try:
-        lista = session.execute(text(f"SELECT id_std FROM estudiantes WHERE id_salon = {id_aula}"))
-        lista_array = [{"id_std": row[0]} for row in lista.fetchall()]
+        lista = session.execute(text(f"SELECT id_std, nombre,segundo_nombre,apellido1,apellido2 FROM estudiantes WHERE id_salon = {id_aula}"))
+        lista_array = [{"id_std": row[0],"nombre":row[1],"snombre":row[2],"apellido1":row[3],"apellido2":row[4]} for row in lista.fetchall()]
         session.commit()
         print("Registros obtenidos exitosamente en la tabla estudiantes.")
     except Exception as e:
