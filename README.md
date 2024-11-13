@@ -1,3 +1,12 @@
+#POR HACER EN ESTE BRANCH
+##importante
+-vista que permita enviar las asistencias de 1 dia
+-vista de crud para aula
+-vista de crud para horario
+-vista de crud para institucion
+## en progreso
+-limitaciones segun rol (considerar el rol de administrador)
+
 # Academy-Tracking
 # Proyecto Final - IST7111 Bases de Datos
 
