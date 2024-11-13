@@ -18,8 +18,7 @@ connection_string = f"postgresql+psycopg2://{db_params['user']}:{db_params['pass
 # Crear el motor de conexión
 engine = create_engine(connection_string)
 
-
-# Función para obtener aulas de un tutor
+# Función para obtener TODAS las aulas 
 def obtener_aulas(): 
     Session = sessionmaker(bind=engine)
     session = Session()

@@ -29,6 +29,7 @@ def get_data():
 @app.route('/api/aulas',methods=['GET'])
 def get_aulas():
     return gau.obtener_aulas()
+
     
 @app.route('/api/aulasTutor', methods=['GET'])
 def get_aulas_ByTutor():

@@ -6,14 +6,14 @@ import { useRouter } from 'next/router';
 import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 
-export default function AulasPage() {
+export default function AulaPage() {
   return (
     <SessionProvider>
-    <Aulas />
+    <Aula />
     </SessionProvider>
   );
 }
-function Aulas(){
+function Aula(){
     interface EstudianteData {
         id: number;
         nombre: string;

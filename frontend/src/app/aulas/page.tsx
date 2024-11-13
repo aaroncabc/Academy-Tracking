@@ -6,15 +6,15 @@ import { Flex, Text, Grid, Card, Badge, Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import { truncate } from 'fs';
 
-export default function AsistenciasPage() {
+export default function AulasPage() {
   return (
     <SessionProvider>
-      <Asistencias />
+      <Aulas />
     </SessionProvider>
   );
 }
 
-function Asistencias() {
+function Aulas() {
   interface TutorData {
     grupo: string;
     gradot: string;
@@ -24,9 +24,9 @@ function Asistencias() {
 
   const { data: session } = useSession();
   const [data, setData] = useState<TutorData[]>([]);
-  
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/aulasTutor?tutor=' + session?.user?.name)
+    fetch('http://localhost:5000/api/aulas')
       .then(response => response.json())
       .then(data => setData(data));
   }, []);
