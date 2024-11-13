@@ -1,20 +1,20 @@
 // app/asistencias/page.tsx
 'use client';
 
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Flex, Text, Grid, Card, Badge, Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import { truncate } from 'fs';
 
-export default function AsistenciasPage() {
+export default function AulasPage() {
   return (
     <SessionProvider>
-      <Asistencias />
+      <Aulas />
     </SessionProvider>
   );
 }
 
-function Asistencias() {
+function Aulas() {
   interface TutorData {
     grupo: string;
     gradot: string;
@@ -24,20 +24,21 @@ function Asistencias() {
 
   const { data: session } = useSession();
   const [data, setData] = useState<TutorData[]>([]);
-  const id = session?.user?.name?.split(' ')[0];
-  const usuario = session?.user?.name?.split(' ')[1];  
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/aulasTutor?tutor='+id)
+    fetch('http://localhost:5000/api/aulas')
       .then(response => response.json())
       .then(data => setData(data));
-  })
+  }, []);
 
+  
   // En el return, asegúrate de que `rol` se muestra en el div:
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <div>
-          <p><strong>Nombre de usuario:</strong> {usuario}</p>
+          <p><strong>id persona:</strong> {session?.user?.image}</p>
+          <p><strong>Nombre de usuario:</strong> {session?.user?.name}</p>
           <p><strong>Rol:</strong> {session?.user?.email}</p> {/* Muestra el valor de `rol` */}
         </div>
         <Grid columns="3" gap="3" rows="repeat(2, 160px)" width="auto">

@@ -3,9 +3,9 @@ import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from '@radix-ui/themes';
 
-const Footer = () => {
+const NavBar = () => {
     return (
-        <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+        <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-end p-10">
             <a
                 className="flex items-center gap-2 hover:underline hover:underline-offset-4"
                 href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
@@ -51,8 +51,9 @@ const Footer = () => {
                 />
                 Go to nextjs.org →
             </a>
+            <Button variant='ghost' onClick={() => signOut()}>Sign out</Button>
         </footer>
     );
 };
 
-export default Footer;
+export default NavBar;

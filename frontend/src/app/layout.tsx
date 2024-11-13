@@ -4,6 +4,7 @@ import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import {Theme} from "@radix-ui/themes";
 import Footer from "./components/footer";
+import Navbar from "./components/navbar";
 import { SessionProvider } from "next-auth/react";
 
 
@@ -34,7 +35,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Theme appearance={"dark"} accentColor={"indigo"}>
-
+        <Navbar />
         {children}
         <Footer>
         </Footer>
