@@ -35,7 +35,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Theme appearance={"dark"} accentColor={"indigo"}>
-        <Navbar />
         {children}
         <Footer>
         </Footer>

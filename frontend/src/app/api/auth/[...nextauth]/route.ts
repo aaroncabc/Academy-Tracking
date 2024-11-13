@@ -31,8 +31,7 @@ const authOptions = {
                     const user = (await response.json())[0];
                     
                     // Verificación de la contraseña
-                    console.log(user.password);
-                    console.log(user.id_persona)
+                    console.log(bcrypt.hash(user.password,10));
                     const matchPassword = bcrypt.compareSync(credentials.password.trim(), user.password.trim());
                     if (!matchPassword) throw new Error("Password mismatch");
 
