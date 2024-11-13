@@ -36,4 +36,23 @@ def obtener_usuario(usuario:str):
     finally:
         session.close()
         
-    return lista_array  # Retornar lista_array fuera del finally
+    return lista_array  # Retornar lista_array fuera del finally{
+        
+def obtener_rol(usuario:str):
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    lista_array = []  # Inicializar lista_array antes del bloque try
+
+    try:
+        lista = session.execute(text("SELECT rol FROM usuario WHERE usuario = :usuario "), {"usuario":usuario})
+        lista_array = [{"rol":row[0]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
+        print(lista_array)
+        session.commit()
+        print("Registros obtenidos exitosamente en la tabla aula.")
+    except Exception as e:
+        session.rollback()
+        print(f"Error al obtener registros: {e}")
+    finally:
+        session.close()
+        
+    return lista_array  # Retornar lista_array fuera del finally{

@@ -13,6 +13,12 @@ def get_User():
     usuario = request.args.get('usuario')
     user = gu.obtener_usuario(usuario)
     return jsonify(user)
+
+@app.route('/api/obtenerRol', methods=['GET'])
+def get_Rol():
+    usuario = request.args.get('usuario')
+    rol = gu.obtener_rol(usuario)
+    return jsonify(rol)
     
 
 @app.route('/api/data', methods=['GET'])

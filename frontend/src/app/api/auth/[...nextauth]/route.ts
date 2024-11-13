@@ -37,7 +37,8 @@ const authOptions = {
                     // Retorna el objeto de usuario para la sesión
                     return {
                         id: user.id,
-                        name: user.nombre
+                        name: user.usuario,
+                        email: user.rol
                     };
                     
                 } catch (error) {
@@ -49,7 +50,7 @@ const authOptions = {
     ],
     callbacks: {
         async session({ session, token }: { session: any, token: any }) {
-            if (token) session.user = { id: token.sub, name: token.name };
+            if (token) session.user = { id: token.sub, name: token.name,email: token.email };
             return session;
         }
     }

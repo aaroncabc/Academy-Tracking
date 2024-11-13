@@ -4,8 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "next/navigation";
 import { useRouter } from 'next/router';
 import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
+import { SessionProvider, useSession } from "next-auth/react";
 
-export default function ByTutor() {
+export default function ByTutorPage() {
+  return (
+    <SessionProvider>
+      <ByTutor />
+    </SessionProvider>
+  );
+}
+
+function ByTutor(){
     interface TutorData {
         grupo: string;
         gradot: string;
@@ -14,6 +23,7 @@ export default function ByTutor() {
     }
     const params = useParams(); // Obtiene los parámetros de la URL
     const tutor = params.tutor;   // Accede al parámetro `mode`
+    const { data: session } = useSession();
     const url = tutor ? `http://localhost:5000/api/aulasTutor?tutor=${tutor}` : '';
     const [data, setData] = useState<TutorData[]>([]);
     useEffect(() => {
@@ -25,6 +35,10 @@ export default function ByTutor() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <div>
+      <p><strong>Nombre de usuario:</strong> {session?.user?.name}</p>
+      <p><strong>Rol:</strong> {session?.user?.email}</p> {/* Muestra el valor de `rol` */}   
+    </div>
     <Grid columns="1" gap="3" rows="repeat(2, 160px)" width="auto" align={"center"}>
     {data? (
           data.map((item, index) => (
