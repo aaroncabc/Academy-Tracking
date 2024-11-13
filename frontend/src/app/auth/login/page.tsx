@@ -65,10 +65,9 @@ export default function Login(){
 
 
     return(
-        <div className="flex flex-row justify-center  ">
-            <div className="box-border border-1 shadow-md  w-full md:w-1/5 mt-2 mb-2 bg-white"> 
-
-                <form action={login} >
+        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <form action={login} >
                 <div className="flex flex-col gap-4 p-4">
                     <div className="">
                         <h1 className="font-semibold" >Iniciar Sesión</h1>
@@ -84,7 +83,7 @@ export default function Login(){
                    <Button type="submit"  className="font-semibold">iniciar</Button> 
                 </div>
                 </form>
-            </div>
-            </div>
+        </main>
+        </div>
     )
 }

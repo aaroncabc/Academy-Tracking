@@ -31,14 +31,17 @@ const authOptions = {
                     const user = (await response.json())[0];
                     
                     // Verificación de la contraseña
+                    console.log(user.password);
+                    console.log(user.id_persona)
                     const matchPassword = bcrypt.compareSync(credentials.password.trim(), user.password.trim());
                     if (!matchPassword) throw new Error("Password mismatch");
 
                     // Retorna el objeto de usuario para la sesión
                     return {
-                        id: user.id,
-                        name: user.usuario,
-                        email: user.rol
+                        id: user.id_persona,
+                        name: `${user.id_persona} ${user.usuario} `,
+                        email: user.rol,
+                        
                     };
                     
                 } catch (error) {
@@ -50,7 +53,7 @@ const authOptions = {
     ],
     callbacks: {
         async session({ session, token }: { session: any, token: any }) {
-            if (token) session.user = { id: token.sub, name: token.name,email: token.email };
+            if (token) session.user = { id: token.sub, name: token.name,email: token.email,image: token.image };
             return session;
         }
     }

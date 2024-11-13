@@ -21,10 +21,10 @@ function ByTutor(){
         grado: number;
         institucion: string;
     }
-    const params = useParams(); // Obtiene los parámetros de la URL
-    const tutor = params.tutor;   // Accede al parámetro `mode`
     const { data: session } = useSession();
-    const url = tutor ? `http://localhost:5000/api/aulasTutor?tutor=${tutor}` : '';
+    const id = session?.user?.name?.split(' ')[0];
+    const usuario = session?.user?.name?.split(' ')[1];  
+    const url = `http://localhost:5000/api/porTomar?tutor=${id}`;
     const [data, setData] = useState<TutorData[]>([]);
     useEffect(() => {
         fetch(url)  // URL de la API Flask

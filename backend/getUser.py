@@ -26,8 +26,8 @@ def obtener_usuario(usuario:str):
     lista_array = []  # Inicializar lista_array antes del bloque try
 
     try:
-        lista = session.execute(text("SELECT usuario,password,rol FROM usuario WHERE usuario = :usuario "), {"usuario":usuario})
-        lista_array = [{"usuario": row[0],"password":row[1],"rol":row[2]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
+        lista = session.execute(text("SELECT id_persona, usuario,password,cargo FROM persona WHERE usuario = :usuario "), {"usuario":usuario})
+        lista_array = [{"id_persona":row[0],"usuario": row[1],"password":row[2],"rol":row[3]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
         session.commit()
         print("Registros obtenidos exitosamente en la tabla aula.")
     except Exception as e:
@@ -44,7 +44,7 @@ def obtener_rol(usuario:str):
     lista_array = []  # Inicializar lista_array antes del bloque try
 
     try:
-        lista = session.execute(text("SELECT rol FROM usuario WHERE usuario = :usuario "), {"usuario":usuario})
+        lista = session.execute(text("SELECT cargo FROM persona WHERE usuario = :usuario "), {"usuario":usuario})
         lista_array = [{"rol":row[0]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
         print(lista_array)
         session.commit()
