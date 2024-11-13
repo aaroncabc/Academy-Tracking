@@ -3,9 +3,17 @@ from flask_cors import CORS
 import getAsistencias as ga
 import sendAsistencias as sa
 import getAulas as gau
+import getUser as gu
 import datetime
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
+
+@app.route('/api/validarUsuario', methods=['GET'])
+def get_User():
+    usuario = request.args.get('usuario')
+    user = gu.obtener_usuario(usuario)
+    return jsonify(user)
+    
 
 @app.route('/api/data', methods=['GET'])
 def get_data():

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
 
 export default function ByTutor() {
-    interface TutorData {
+    interface EstudianteData {
         id: number;
         nombre: string;
         snombre: string;
@@ -16,7 +16,7 @@ export default function ByTutor() {
     const params = useParams(); // Obtiene los parámetros de la URL
     const aula = params.id_aula;   // Accede al parámetro `mode`
     const url = aula ? `http://localhost:5000/api/listaAlumnos?aula=${aula}` : '';
-    const [data, setData] = useState<TutorData[]>([]);
+    const [data, setData] = useState<EstudianteData[]>([]);
     useEffect(() => {
         fetch(url)  // URL de la API Flask
             .then(response => response.json())
