@@ -22,16 +22,14 @@ const authOptions = {
             async authorize(credentials) {
                 if (!credentials) throw new Error("No credentials provided");
 
-                const url = `http://localhost:5000/api/validarUsuario?usuario=${credentials.user}`;
+                const url = `http://localhost:5000/api/validarUsuario?usuario=${credentials.user.trim()}`;
                 
                 try {
                     const response = await fetch(url);
                     if (!response.ok) throw new Error("User not found");
                     
                     const user = (await response.json())[0];
-                    
-                    // Verificación de la contraseña
-                    console.log(bcrypt.hash(user.password,10));
+                    if (!user) throw new Error("User not found");
                     const matchPassword = bcrypt.compareSync(credentials.password.trim(), user.password.trim());
                     if (!matchPassword) throw new Error("Password mismatch");
 

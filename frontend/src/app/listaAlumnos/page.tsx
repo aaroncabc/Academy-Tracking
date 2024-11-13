@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Flex, Text, Grid, Card, Badge, Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import { truncate } from 'fs';
+import NavBar from '../components/navbar';
 
 export default function AulasPage() {
   return (
