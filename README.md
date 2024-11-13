@@ -1,5 +1,5 @@
-#POR HACER EN ESTE BRANCH
-##importante
+# POR HACER EN ESTE BRANCH
+## importante
 -vista que permita enviar las asistencias de 1 dia
 -vista de crud para aula
 -vista de crud para horario
