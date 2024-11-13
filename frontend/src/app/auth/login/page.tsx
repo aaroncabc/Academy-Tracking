@@ -67,6 +67,7 @@ export default function Login(){
     return(
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <Card variant="classic">
         <form action={login} >
                 <div className="flex flex-col gap-4 p-4">
                     <div className="">
@@ -80,9 +81,10 @@ export default function Login(){
                         </div>
                         {error && <p className="text-red-500">{error}</p>}
                     {/* <Button color="primary" href="/studentboard/tests" as={Link}  className="font-semibold">inciar</Button>  */}
-                   <Button type="submit"  className="font-semibold">iniciar</Button> 
+                   <Button variant="soft" type="submit"  className="font-semibold">iniciar</Button> 
                 </div>
                 </form>
+            </Card>
         </main>
         </div>
     )
