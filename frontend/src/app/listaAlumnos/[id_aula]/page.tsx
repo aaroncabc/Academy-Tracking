@@ -15,7 +15,6 @@ export default function AulaPage() {
   );
 }
 function Aula(){
-    const router = useRouter();
     interface EstudianteData {
         id: number;
         nombre: string;
@@ -25,7 +24,9 @@ function Aula(){
     }
     const params = useParams(); // Obtiene los parámetros de la URL
     const aula = params.id_aula;   // Accede al parámetro `mode`
-    const { data: session,status} = useSession();
+    const { data: session, status } = useSession();
+    const router = useRouter();
+  
     useEffect(() => {
       if (status === 'loading') return; // Espera hasta que se cargue la sesión
   
