@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from backend.Scripts.Notas.Profesor import consultanotas,update_notas
-from backend.Scripts.Notas.Admin import aconsultarnota
 from backend.Consultas.Notas import mostrar_notas, mostrar_notas_admin, actualizarnotas
 # Inicializa la aplicación Flask
 app = Flask(__name__)

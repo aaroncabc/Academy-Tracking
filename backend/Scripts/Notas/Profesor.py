@@ -4,7 +4,7 @@ from sqlalchemy import text
 def consultanotas(db, nombre_profesor, grupo=None):
     try:
         # Lee el archivo SQL
-        with open("backend/Scripts/Notas/ConsultarNotas_profesor.sql", "r") as file:
+        with open("Scripts/Notas/ConsultarNotas_profesor.sql", "r") as file:
             sql_query = file.read()
         
         # Ejecuta el query con el parámetro 'nombre_profesor'

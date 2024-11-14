@@ -51,11 +51,11 @@ const data = {
         },
         {
           title: "Profesores",
-          url: "#",
+          url: "/profesores",
         },
         {
           title: "Escuelas",
-          url: "#",
+          url: "/instituciones",
         },
         {
           title: "Estudiantes",
@@ -94,7 +94,7 @@ const data = {
     },
     {
       title: "Consultar Notas",
-      url: "#",
+      url: "/notas",
     },
     {
       title: "Consultar Asistencias",

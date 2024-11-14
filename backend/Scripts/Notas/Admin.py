@@ -3,7 +3,7 @@ from sqlalchemy import text
 def aconsultarnota(db, institucion=None, profesor=None,grupo=None):
     try:
         # Lee el archivo SQL
-        with open("backend/Scripts/Notas/ConsultaNotasAdmin.sql", "r") as file:
+        with open("Scripts/Notas/ConsultaNotasAdmin.sql", "r") as file:
             sql_query = file.read()
 
         # Ejecuta la consulta con los parámetros (institucion y profesor son opcionales)

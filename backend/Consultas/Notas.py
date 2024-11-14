@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from backend.Scripts.Notas.Profesor import consultanotas,update_notas
-from backend.Scripts.Notas.Admin import aconsultarnota
+from Scripts.Notas.Profesor import consultanotas,update_notas
+from Scripts.Notas.Admin import aconsultarnota
 
 
 def mostrar_notas(db):
@@ -34,7 +34,7 @@ def mostrar_notas_admin(db):
 
         # Llamamos a la función aconsultarnota con los parámetros
         notas = aconsultarnota(db, institucion, profesor, grupo)
-        
+        print(notas)
         # Verificamos si hay error
         if 'error' in notas:
             return jsonify(notas), 500

@@ -3,11 +3,20 @@ from flask_cors import CORS
 import getAsistencias as ga
 import sendAsistencias as sa
 import getAulas as gau
+import GetProfesores as gp
 import getUser as gu
 import GetInstituciones as gi
 import datetime
+from flask_sqlalchemy import SQLAlchemy
+from Consultas.Notas import mostrar_notas, mostrar_notas_admin, actualizarnotas
+
+
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
+app.config.from_pyfile('config.py')
+
+# Configura la conexión de la base de datos con SQLAlchemy
+db = SQLAlchemy(app)
 
 @app.route('/api/validarUsuario', methods=['GET'])
 def get_User():
@@ -62,5 +71,25 @@ def get_escuelas():
     escuelas=gi.obtener_escuelas()
     print(escuelas)
     return jsonify(escuelas)
+
+@app.route('/api/notas', methods=['GET'])
+def notas():
+    return mostrar_notas(db)
+    
+@app.route('/api/update_notas', methods=['POST'])
+def actualizar_notas():
+    return actualizarnotas(db)
+    
+
+@app.route('/api/ANotas', methods=['GET'])
+def AconsultarNotas():
+    return  mostrar_notas_admin(db)
+
+@app.route('/api/profesores', methods=['GET'])
+def get_profesores():
+    profesores=jsonify(gp.obtener_profesores())
+    print(profesores)
+    return profesores
 if __name__ == '__main__':
     app.run(debug=True)
+    
