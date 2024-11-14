@@ -8,10 +8,9 @@ import NavBar from "@/app/components/navbar";
 
 export default function AulaPage() {
   return (
-    <SessionProvider>
-    <NavBar></NavBar>
+    <>
     <Aula />
-    </SessionProvider>
+    </>
   );
 }
 function Aula(){

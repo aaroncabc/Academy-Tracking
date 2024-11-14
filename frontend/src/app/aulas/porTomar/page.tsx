@@ -1,18 +1,16 @@
 'use client';
 import Image from "next/image";
 import React, { useEffect, useState } from 'react';
-import { useParams } from "next/navigation";
-import { useRouter } from 'next/router';
+import { useParams,useRouter } from "next/navigation";
 import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import NavBar from "@/app/components/navbar";
 
 export default function ByTutorPage() {
   return (
-    <SessionProvider>
-      <NavBar></NavBar>
+    <>
       <ByTutor />
-    </SessionProvider>
+    </>
   );
 }
 

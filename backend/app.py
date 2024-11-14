@@ -62,5 +62,6 @@ def get_escuelas():
     escuelas=gi.obtener_escuelas()
     print(escuelas)
     return jsonify(escuelas)
+
 if __name__ == '__main__':
     app.run(debug=True)

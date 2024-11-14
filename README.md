@@ -3,7 +3,7 @@
 1. vista que permita enviar las asistencias de 1 dia
 2. vista de crud para aula
 3. vista de crud para horario
-4. vista de crud para institucion
+
 ## en progreso
 - limitaciones segun rol (considerar el rol de administrador)
 

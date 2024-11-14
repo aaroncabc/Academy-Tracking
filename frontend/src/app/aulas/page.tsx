@@ -7,13 +7,17 @@ import { SessionProvider, useSession } from "next-auth/react";
 import { truncate } from 'fs';
 import NavBar from '../components/navbar';
 import { useRouter } from 'next/navigation';
+import { Sidebar } from 'lucide-react';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/app-sidebar';
+import { Separator } from '@radix-ui/react-separator';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 export default function AsistenciasPage() {
   return (
-    <SessionProvider>
-      <NavBar></NavBar>
-      <Asistencias />
-    </SessionProvider>
+    <>
+    <Asistencias></Asistencias>
+    </>
   );
 }
 
