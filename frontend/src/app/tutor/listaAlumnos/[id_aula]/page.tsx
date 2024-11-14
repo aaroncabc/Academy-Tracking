@@ -2,9 +2,12 @@
 import Image from "next/image";
 import React, { useEffect, useState } from 'react';
 import { useParams,useRouter } from "next/navigation";
-import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
-import { SessionProvider, useSession } from "next-auth/react";
+import { Flex, Text, Button, Grid,Card,Badge,Heading, TextField, RadioGroup } from "@radix-ui/themes";
+import { SessionProvider, signIn, useSession } from "next-auth/react";
 import NavBar from "@/app/components/navbar";
+import { error } from "console";
+import Swal from "sweetalert2";
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 export default function AulaPage() {
   return (
@@ -15,12 +18,29 @@ export default function AulaPage() {
 }
 function Aula(){
     interface EstudianteData {
-        id: number;
+        id_std: string;
         nombre: string;
         snombre: string;
         apellido1: string;
         apellido2: string;
+    } 
+    
+    const [currentDate, setCurrentDate] = useState("");
+    interface Attendance {
+      nombre: string;
+      asistencia: string;
     }
+    
+    const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
+
+    useEffect(() => {
+      // Obtiene la fecha actual del sistema
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString(); // Puedes personalizar el formato si es necesario
+      setCurrentDate(formattedDate);
+    }, []);
+
+
     const params = useParams(); // Obtiene los parámetros de la URL
     const aula = params.id_aula;   // Accede al parámetro `mode`
     const { data: session, status } = useSession();
@@ -32,7 +52,7 @@ function Aula(){
       if (!session) {
         router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
       } else {
-        router.push(`/listaAlumnos/${aula}`); // Redirige a "/aulas" si la sesión existe
+        router.push(`/tutor/listaAlumnos/${aula}`); // Redirige a "/aulas" si la sesión existe
       }
     }, [session, status, router]);
 
@@ -43,27 +63,102 @@ function Aula(){
             .then(response => response.json())
             .then(data => setData(data));
     }, []);
+      // Actualizar el estado de asistencia
+    const handleAttendanceChange = (studentName:any, attendance:any) => {
+      setAttendanceData((prevData) => {
+        const updatedData = prevData.filter(item => item.nombre !== studentName);
+        return [...updatedData, { nombre: studentName, asistencia: attendance }];
+      });
+   };
+
+    // envio de formulario
+    const [error, setError] = useState<string | null>(null);    
+    async function asistencia(formData: FormData) {
+        const user = formData.get("user")?.toString();
+        const password = formData.get("password")?.toString();
+
+        // Mostrar alerta de carga
+        const loadingAlert = Swal.fire({
+            title: 'Cargando...',
+            text: 'Por favor, espere mientras se procesa su solicitud.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading(); // Muestra el spinner de carga
+            },
+        });
+
+        try {
+            const res = await  fetch("http://localhost:5000/api/tomarAsistencia", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ aula, asistencias: attendanceData, fecha: currentDate }), // Incluye aula y los datos de asistencia
+            });
+
+            if (!res.ok) {
+                await Swal.fire({
+                    title: 'Error',
+                    text: 'Error inesperado en la toma de asistencia',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
+            } else {
+                await Swal.fire({
+                    title: 'Éxito',
+                    text: '¡Inicio de sesión exitoso!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                });
+                router.push(`/tutor/aulas`);
+            }
+        } catch (error) {
+            setError('Se produjo un error inesperado.');
+            await Swal.fire({
+                title: 'Error',
+                text: 'Se produjo un error inesperado.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+        } finally {
+            Swal.close(); // Cierra la alerta de carga
+        }
+
+    }
+
     
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-    <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-    <Card>
-    <Heading>Lista de Alumnos</Heading>
-    <Flex direction={"column"} gap={"4"} p={"3"}>
-    {data? (
-          data.map((item, index) => (
-            <Flex direction={"column"} key={index}>
-                <Heading> {item.nombre} {item.snombre?item.snombre:''} {item.apellido1} {item.apellido2} </Heading>
-                <Flex direction={"column"} pt={"20px"}>
-                <Text wrap={"pretty"}><strong>Asistencia:</strong></Text>
-                </Flex>
-            </Flex>
-          ))
-        ) : (
-          <p>Cargando datos...</p>
-        )}
-    </Flex>
-    </Card>
+    <main className="flex flex-col gap-8 row-start-2 items-start sm:items-start">
+    <Heading>Lista de Alumnos - {currentDate}</Heading>
+    <form action={asistencia} >
+      <div className="flex flex-col gap-4 p-4">
+                {data? (
+                data.map((item, index) => (
+                  <Flex direction={"column"} key={index}>
+                      <Label> {item.nombre} {item.snombre?item.snombre:''} {item.apellido1} {item.apellido2} </Label>
+                      <RadioGroup.Root onValueChange={(value) => handleAttendanceChange(item.id_std, value)}>
+                          <RadioGroup.Item value="true">Asistió</RadioGroup.Item>
+                          <RadioGroup.Item value="tarde">Tarde</RadioGroup.Item>
+                          <RadioGroup.Item value="false">Faltó</RadioGroup.Item>                       
+                      </RadioGroup.Root>
+                  </Flex>
+                ))
+              ) : (
+                <p>Cargando datos...</p>
+              )}
+              {error && <p className="text-red-500">{error}</p>}
+          {/* <Button color="primary" href="/studentboard/tests" as={Link}  className="font-semibold">inciar</Button>  */}
+          <Button variant="soft" type="submit"  className="font-semibold">iniciar</Button> 
+      </div>
+      <div>
+        {attendanceData.map((item, index) => (
+          <p key={index}>
+            {item.nombre} - {item.asistencia}
+          </p>
+        ))}
+      </div>
+      </form>
     </main>
     </div>
   );

@@ -52,11 +52,13 @@ def get_lista_alumnos():
 
 @app.route('/api/tomarAsistencia', methods=['POST'])
 def post_asistencias():
-    aula = request.args.get('aula')
-    asistencias = request.args.get('asistencias')
-    fecha = request.args.get('fecha')
+    data = request.json
+    aula = data.get('aula')
+    asistencias = data.get('asistencias')
+    fecha = data.get('fecha')
     sa.insert_asistencia_Aula(aula,asistencias,fecha)
-    return 
+    return jsonify({'message': 'Asistencias guardadas exitosamente'})
+
 @app.route('/api/escuelas', methods=['GET'])
 def get_escuelas():
     escuelas=gi.obtener_escuelas()

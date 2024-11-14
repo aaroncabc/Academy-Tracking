@@ -5,7 +5,6 @@ import React, { use, useEffect, useState } from 'react';
 import { Flex, Text, Grid, Card, Badge, Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import { truncate } from 'fs';
-import NavBar from '../components/navbar';
 import { useRouter } from 'next/navigation';
 import { Sidebar } from 'lucide-react';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -38,7 +37,7 @@ function Asistencias() {
     if (!session) {
       router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
     } else {
-      router.push('/aulas'); // Redirige a "/aulas" si la sesión existe
+      router.push('/tutor/aulas'); // Redirige a "/aulas" si la sesión existe
     }
   }, [session, status, router]);
   const [data, setData] = useState<AulaData[]>([]);
@@ -58,7 +57,7 @@ function Asistencias() {
           {data.length > 0 ? (
             data.map((item, index) => (
               <Card key={index}>
-                <Heading><a href={`/listaAlumnos/${item.id_aula}`}><strong>Grupo:</strong> {item.grupo}</a></Heading>
+                <Heading><a href={`/tutor/listaAlumnos/${item.id_aula}`}><strong>Grupo:</strong> {item.grupo}</a></Heading>
                 <Badge><strong>Grado:</strong> {item.gradot} ({item.grado}°)</Badge>
                 <Flex direction={"column"} pt={"20px"}>
                   <Text wrap={"pretty"}><strong>Institución:</strong> {item.institucion}</Text>
