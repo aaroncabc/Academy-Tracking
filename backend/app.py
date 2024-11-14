@@ -31,7 +31,30 @@ def get_data():
 def get_aulas():
     return gau.obtener_aulas()
 
+@app.route('/api/crear_aulas',methods=['POST'])
+def post_aulas():
+    data = request.json
+    id_aula=data.get('id_aula')
+    grupo=data.get('grupo')
+    grupoT=data.get('grupoT')
+    jornada=data.get('jornada')
+    grado=data.get('grado')
+    gradoT=data.get('gradoT')
+    id_persona=data.get('id_persona')
+    id_institucion=data.get('id_institucion')
+
+    try:
+        resultado = gau.Crear_aula(id_aula, grupo, grupoT, jornada, grado, gradoT, id_persona, id_institucion)
+
+        if resultado is True:
+            return jsonify({"success": "Aula creada correctamente"}), 201
+        else:
+            return jsonify(resultado), 400
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
+
 @app.route('/api/aulasTutor', methods=['GET'])
 def get_aulas_ByTutor():
     tutor = request.args.get('tutor')
