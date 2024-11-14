@@ -95,7 +95,7 @@ function Aula(){
               },
               body: JSON.stringify({ aula, asistencias: attendanceData, fecha: currentDate }), // Incluye aula y los datos de asistencia
             });
-
+            console.log(res);
             if (!res.ok) {
                 await Swal.fire({
                     title: 'Error',
@@ -106,7 +106,7 @@ function Aula(){
             } else {
                 await Swal.fire({
                     title: 'Éxito',
-                    text: '¡Inicio de sesión exitoso!',
+                    text: 'Asistencia tomada con éxito',
                     icon: 'success',
                     confirmButtonText: 'OK',
                 });

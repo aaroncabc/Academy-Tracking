@@ -56,8 +56,8 @@ def post_asistencias():
     aula = data.get('aula')
     asistencias = data.get('asistencias')
     fecha = data.get('fecha')
-    sa.insert_asistencia_Aula(aula,asistencias,fecha)
-    return jsonify({'message': 'Asistencias guardadas exitosamente'})
+    message = sa.insert_asistencia_Aula(aula,asistencias,fecha)
+    return
 
 @app.route('/api/escuelas', methods=['GET'])
 def get_escuelas():

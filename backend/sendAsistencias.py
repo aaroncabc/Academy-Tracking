@@ -1,6 +1,7 @@
+import datetime
 from sqlalchemy import create_engine, Table, MetaData, Column, Integer, Date, Boolean, ForeignKey,text
 from sqlalchemy.orm import sessionmaker
-from datetime import date
+from datetime import date,datetime
 import config
 
 # Crear la cadena de conexión
@@ -56,6 +57,13 @@ def insert_asistencia_Aula(id_aula: int,asistencias: list,date):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
+        fecha_actual = datetime.now()
+        fecha_actual = fecha_actual.strftime("%Y-%m-%d")
+        query =text("SELECT * FROM asistencia WHERE fecha = :fecha_actual AND id_aula = :id_aula")
+        tomado = session.execute(query,{"fecha_actual":fecha_actual,"id_aula":id_aula})
+        if(tomado):
+            return "Ya se ha tomado la asistencia de este aula"
+        
         for asistencia in asistencias:
             nuevo_registro = {
                 'id_std': asistencia['nombre'],
@@ -80,5 +88,5 @@ def insert_asistencia_Aula(id_aula: int,asistencias: list,date):
         print(f"Error al insertar el registro: {e}")
     finally:
         session.close()
-        return
+        return "Asistencia tomada exitosamente"
 
