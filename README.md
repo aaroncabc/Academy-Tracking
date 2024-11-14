@@ -1,3 +1,12 @@
+# POR HACER EN ESTE BRANCH
+## importante
+1. vista que permita enviar las asistencias de 1 dia
+2. vista de crud para aula
+3. vista de crud para horario
+4. vista de crud para institucion
+## en progreso
+- limitaciones segun rol (considerar el rol de administrador)
+
 # Academy-Tracking
 # Proyecto Final - IST7111 Bases de Datos
 
@@ -15,7 +24,7 @@ Este proyecto es el desarrollo de un sistema de gestión de datos y aplicación 
 3. **Script de Base de Datos:** Implementación del modelo en la base de datos asignada.
 4. **Población de Datos:** Script que inserta datos de prueba en las tablas para validar las reglas de negocio.
 5. **Aplicación Web:** Desarrollo de una aplicación para la gestión de datos.
-6. **Presentación del Proyecto:** Exposición de la tecnología y retos encontrados.
+6. **Presentación del Proyecto:** Exposición de la tecn- ogía y retos encontrados.
 
 ### Requerimientos Técnicos
 - **Lenguaje de Programación:** Python y/o JavaScript.
