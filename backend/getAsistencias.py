@@ -6,8 +6,8 @@ from datetime import date,datetime
 db_params = {
     "host": "localhost",
     "database": "Flake",
-    "user": "postgres",
-    "password": "titajose23",
+    "user": "Brayan",
+    "password": "07072004",
     "port": "5432"  # Puerto predeterminado de PostgreSQL
 }
 

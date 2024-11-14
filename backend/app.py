@@ -4,6 +4,7 @@ import getAsistencias as ga
 import sendAsistencias as sa
 import getAulas as gau
 import getUser as gu
+import GetInstituciones as gi
 import datetime
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
@@ -56,6 +57,10 @@ def post_asistencias():
     fecha = request.args.get('fecha')
     sa.insert_asistencia_Aula(aula,asistencias,fecha)
     return 
-
+@app.route('/api/escuelas', methods=['GET'])
+def get_escuelas():
+    escuelas=gi.obtener_escuelas()
+    print(escuelas)
+    return jsonify(escuelas)
 if __name__ == '__main__':
     app.run(debug=True)
