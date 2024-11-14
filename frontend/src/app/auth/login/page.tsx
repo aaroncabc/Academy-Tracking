@@ -47,7 +47,7 @@ export default function Login(){
                     icon: 'success',
                     confirmButtonText: 'OK',
                 });
-                router.push("/aulas");
+                router.push("/");
             }
         } catch (error) {
             setError('Se produjo un error inesperado.');

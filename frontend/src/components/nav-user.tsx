@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import {
   RectangleEllipsis,
   RotateCcw,
@@ -36,8 +35,6 @@ export function NavUser({
 }: {
   user: {
     name: string
-    email: string
-    avatar: string
   }
 }) {
   const { isMobile } = useSidebar()
@@ -56,7 +53,6 @@ export function NavUser({
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -74,7 +70,6 @@ export function NavUser({
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

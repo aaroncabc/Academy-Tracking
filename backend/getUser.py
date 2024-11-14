@@ -1,20 +1,10 @@
 from sqlalchemy import create_engine, Table, MetaData, Column, Integer, Date, Boolean, ForeignKey,text
 from sqlalchemy.orm import sessionmaker
 from datetime import date,datetime
-# Información de conexión
-db_params = {
-    "host": "localhost",
-    "database": "Flake",
-    "user": "Brayan",
-    "password": "07072004",
-    "port": "5432"  # Puerto predeterminado de PostgreSQL
-}
-
-
+import config
 
 # Crear la cadena de conexión
-connection_string = 'postgresql://Brayan:07072004@localhost/Flake'
-
+connection_string = config.SQLALCHEMY_DATABASE_URI
 # Crear el motor de conexión
 engine = create_engine(connection_string)
 

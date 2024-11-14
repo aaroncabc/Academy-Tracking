@@ -1,3 +1,4 @@
+'use client';
 import { AppSidebar } from "@/components/app-sidebar"
 import  StudentCountCard from "@/components/ui/Count"
 import SchoolCard from "@/components/ui/School"
@@ -15,9 +16,11 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { SessionProvider } from "next-auth/react"
 
 export default function Page() {
   return (
+
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>

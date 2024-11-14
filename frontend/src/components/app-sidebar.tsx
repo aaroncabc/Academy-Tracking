@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import * as React from "react"
 import {
   AudioWaveform,
@@ -29,15 +28,12 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { title } from "process"
+import { useRouter } from "next/navigation"
+import { Session } from "inspector/promises"
+import { SessionProvider, useSession } from "next-auth/react"
 
 //datos de ejemplo para usuarios
-const data = {
-  user: {
-    name: "Usuario",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  
+const data = { 
   navMain: [
     {
       title: "General",
@@ -145,14 +141,26 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  return (
-    <Sidebar collapsible="icon" {...props}>
+  return(
+    <SessionProvider>
+      <AppSidebarComponent {...props} />
+    </SessionProvider>
+  )
+}
 
+
+
+function AppSidebarComponent({ ...props }: React.ComponentProps<typeof Sidebar>) {
+ 
+  const router = useRouter();
+  const { data: session,status} = useSession();
+    return (
+    <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={{ name: session?.user?.name?.split(' ')[1] || '' }} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
