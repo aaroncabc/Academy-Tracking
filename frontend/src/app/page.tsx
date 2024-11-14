@@ -21,7 +21,7 @@ function Home() {
     if (!session) {
       router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
     } else {
-      router.push('/dashboard'); // Redirige a "/aulas" si la sesión existe
+      router.push('/dashboard'); // Redirige a "/tutores" si la sesión existe
     }
   }, [session, status, router]);
 
