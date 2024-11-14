@@ -154,16 +154,12 @@ const data2 = {
         },
         {
           title: "Aulas",
-          url: "#",
+          url: "/tutor/aulas",
         },
         {
           title: "Notas",
-          url: "#",
-        },
-        {
-          title: "Asistencias",
-          url: "#",
-        },
+          url: "tutor/notas",
+        }
       ],
     },
   {
