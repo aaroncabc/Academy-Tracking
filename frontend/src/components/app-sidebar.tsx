@@ -14,6 +14,7 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  AlarmClock
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -159,6 +160,34 @@ const data2 = {
         {
           title: "Notas",
           url: "tutor/notas",
+        }
+      ],
+    },{
+    title: "Horario",
+    url: "#",
+    icon: AlarmClock,
+    items: [
+      {
+        title: "Mi semana",
+        url: "#",
+      },
+      {
+        title: "Mi dia",
+        url: "#",
+      }
+    ],
+  },{
+      title: "Estudiantes",
+      url: "#",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Consultar Notas",
+          url: "#",
+        },
+        {
+          title: "Consultar Asistencias",
+          url: "#",
         }
       ],
     },
