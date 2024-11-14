@@ -140,6 +140,46 @@ const data = {
   ],
 }
 
+const data2 = { 
+  navMain: [
+    {
+      title: "General",
+      url: "#",
+      icon: ClipboardList,
+      isActive: true,
+      items: [
+        {
+          title: "Dashboard",
+          url: "/dashboard",
+        },
+        {
+          title: "Aulas",
+          url: "#",
+        },
+        {
+          title: "Notas",
+          url: "#",
+        },
+        {
+          title: "Asistencias",
+          url: "#",
+        },
+      ],
+    },
+  {
+      title: "Settings",
+      url: "#",
+      icon: Settings2,
+      items: [
+        {
+          title: "General",
+          url: "#",
+        },
+      ],
+    },
+  ],
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return(
     <SessionProvider>
@@ -157,7 +197,7 @@ function AppSidebarComponent({ ...props }: React.ComponentProps<typeof Sidebar>)
     return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={session?.user?.email === "admin" ? data.navMain : data2.navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={{ name: session?.user?.name?.split(' ')[1] || '' }} />
