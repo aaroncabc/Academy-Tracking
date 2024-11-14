@@ -5,10 +5,12 @@ import { useParams } from "next/navigation";
 import { useRouter } from 'next/router';
 import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
+import NavBar from "@/app/components/navbar";
 
 export default function AulaPage() {
   return (
     <SessionProvider>
+    <NavBar></NavBar>
     <Aula />
     </SessionProvider>
   );
@@ -36,24 +38,23 @@ function Aula(){
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
     <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-    <div>
-      <p><strong>Nombre de usuario:</strong> {session?.user?.name}</p>
-      <p><strong>Rol:</strong> {session?.user?.email}</p> {/* Muestra el valor de `rol` */}        
-    </div>
-    <Grid columns="1" gap="3" rows="repeat(2, 100px)" width="auto">
+    <Card>
+    <Heading>Lista de Alumnos</Heading>
+    <Flex direction={"column"} gap={"4"} p={"3"}>
     {data? (
           data.map((item, index) => (
-            <Card key={index} >
+            <Flex direction={"column"} key={index}>
                 <Heading> {item.nombre} {item.snombre?item.snombre:''} {item.apellido1} {item.apellido2} </Heading>
                 <Flex direction={"column"} pt={"20px"}>
                 <Text wrap={"pretty"}><strong>Asistencia:</strong></Text>
                 </Flex>
-            </Card>
+            </Flex>
           ))
         ) : (
           <p>Cargando datos...</p>
         )}
-    </Grid>
+    </Flex>
+    </Card>
     </main>
     </div>
   );
