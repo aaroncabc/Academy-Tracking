@@ -5,15 +5,15 @@ from datetime import date,datetime
 db_params = {
     "host": "localhost",
     "database": "Flake",
-    "user": "postgres",
-    "password": "titajose23",
+    "user": "Brayan",
+    "password": "07072004",
     "port": "5432"  # Puerto predeterminado de PostgreSQL
 }
 
 
 
 # Crear la cadena de conexión
-connection_string = f"postgresql+psycopg2://{db_params['user']}:{db_params['password']}@{db_params['host']}:{db_params['port']}/{db_params['database']}"
+connection_string = 'postgresql://Brayan:07072004@localhost/Flake'
 
 # Crear el motor de conexión
 engine = create_engine(connection_string)

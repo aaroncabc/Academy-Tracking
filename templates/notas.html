@@ -1,0 +1,17 @@
+<!-- templates/notas.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Notas de los Estudiantes</title>
+</head>
+<body>
+    <h1>Notas de los Estudiantes</h1>
+    <ul>
+        {% for row in notas %}
+            <li>{{ row }}</li>  <!-- Muestra cada fila completa como una tupla -->
+        {% endfor %}
+    </ul>
+</body>
+</html>
