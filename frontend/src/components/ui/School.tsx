@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';  // Cambiamos a next/navigation
 import { usePathname } from 'next/navigation';
-
+import { School } from "lucide-react";
 interface School {
-  id: number;
-  name: string;
+  id_instituciones: number;
+  nombre: string;
 }
 
 const SchoolCard: React.FC = () => {
@@ -69,9 +69,9 @@ const SchoolCard: React.FC = () => {
   // Mostrar estado de carga
   if (isLoading) {
     return (
-      <div className="flex items-center p-4 bg-white rounded-lg shadow-md w-full max-w-xs">
+      <div className="flex items-center aspect-video p-4 rounded-xl shadow-md w-full bg-muted/50">
         <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full animate-pulse">
-          <span className="text-xl text-blue-600 font-bold">🏫</span>
+          <School/>
         </div>
         <div className="ml-4">
           <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
@@ -101,16 +101,16 @@ const SchoolCard: React.FC = () => {
   const currentSchool = schools[currentIndex];
 
   return (
-    <div className="flex items-center p-4 bg-white rounded-lg shadow-md w-full max-w-xs">
-      <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full">
-        <span className="text-xl text-blue-600 font-bold">🏫</span>
+    <div className="flex items-center aspect-video p-4 rounded-xl shadow-md w-full bg-muted/50">
+      <div className="flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full">
+      <School className="text-blue-600" size={50}/>
       </div>
       <div className="ml-4">
         <button
-          onClick={() => handleSchoolClick(currentSchool.id)}
+          onClick={() => handleSchoolClick(currentSchool.id_instituciones)}
           className="text-gray-800 text-lg font-semibold underline hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
         >
-          {currentSchool.name}
+          {currentSchool.nombre}
         </button>
       </div>
     </div>

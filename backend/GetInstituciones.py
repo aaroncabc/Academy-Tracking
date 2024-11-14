@@ -27,7 +27,7 @@ def obtener_escuelas():
 
     try:
         lista = session.execute(text("SELECT institucion.id_institucion,institucion.nombre FROM institucion "), {})
-        lista_array = [{"id": row[0],"nombre":row[1]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
+        lista_array = [{"id_instituciones": row[0],"nombre":row[1]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
         session.commit()
         print("Registros obtenidos exitosamente en la tabla aula.")
     except Exception as e:
