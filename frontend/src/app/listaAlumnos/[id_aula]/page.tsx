@@ -1,8 +1,7 @@
 'use client';
 import Image from "next/image";
 import React, { useEffect, useState } from 'react';
-import { useParams } from "next/navigation";
-import { useRouter } from 'next/router';
+import { useParams,useRouter } from "next/navigation";
 import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import NavBar from "@/app/components/navbar";
@@ -16,6 +15,7 @@ export default function AulaPage() {
   );
 }
 function Aula(){
+    const router = useRouter();
     interface EstudianteData {
         id: number;
         nombre: string;
@@ -25,7 +25,16 @@ function Aula(){
     }
     const params = useParams(); // Obtiene los parámetros de la URL
     const aula = params.id_aula;   // Accede al parámetro `mode`
-    const {data:session} = useSession();
+    const { data: session,status} = useSession();
+    useEffect(() => {
+      if (status === 'loading') return; // Espera hasta que se cargue la sesión
+  
+      if (!session) {
+        router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
+      } else {
+        router.push(`/listaAlumnos/${aula}`); // Redirige a "/aulas" si la sesión existe
+      }
+    }, [session, status, router]);
 
     const url = aula ? `http://localhost:5000/api/listaAlumnos?aula=${aula}` : '';
     const [data, setData] = useState<EstudianteData[]>([]);
