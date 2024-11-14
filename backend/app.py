@@ -57,5 +57,6 @@ def post_asistencias():
     sa.insert_asistencia_Aula(aula,asistencias,fecha)
     return 
 
+
 if __name__ == '__main__':
     app.run(debug=True)
