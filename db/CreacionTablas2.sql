@@ -17,8 +17,8 @@ CREATE TABLE Persona
  Direccion             char(50) NOT NULL,
  Celular               char(50) NOT NULL,
  Cargo                 char(50) NOT NULL,
- usuario               char(50),
- password              char(200),
+ usuario               char(50) NOT NULL,
+ password              char(200) NOT NULL,
  CONSTRAINT PK_4 PRIMARY KEY ( Id_persona )
 );
 
