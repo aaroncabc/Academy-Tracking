@@ -26,3 +26,32 @@ def obtener_aulas():
         session.close()
         
     return lista_array  # Retornar lista_array fuera del finally
+
+def Crear_aula(id_aula:int,grupo:int,grupoT:str,jornada:str,grado:int,gradoT:str,id_persona:int,id_institucion:int):
+    grado_dict={"Primero":1,"Segundo":2,"Tercero":3,"Cuarto":4,"Quinto":5}
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    lista = session.execute(text("SELECT * FROM aula"))
+
+    
+    if any(x.isdigit() for x in [grupoT, jornada, gradoT]): #valida si los valores str tienen algun valor numerico
+        return {"error": "Los campos GrupoT, Jornada y GradoT no deben contener dígitos."}
+
+    if any(map((lambda x: not isinstance(x,int),[id_aula,grado,gradoT,id_persona,id_institucion]))): #valida si los valores int no poseen ningun campo diferente a un número
+        return {"error": "Los campos id_aula, grado, id_persona e id_institucion deben ser números enteros."}
+
+    if str(grupo)[0] != str(grado): #valida si el primer valor referente al grupo que es el grado es igual al grado
+        return {"error": "El primer dígito de grupo debe coincidir con el grado."}
+    else:
+        for i in lista: #valida si el grupo colocado o el id_aula ya existen
+            if i[0] == id_aula or i[1] == grupo:
+                return {"error": "El id_aula o grupo ya existen en la base de datos."}
+
+    if grado_dict[gradoT] != grado: #valida si el grado colocado corresponde al numero del grado
+        return {"error": "El valor de GradoT no coincide con el número del grado."}
+    
+    dict_={'Id_aula':id_aula,'Grupo':grupo,'GrupoT':grupoT,'Jornada':jornada,'Grado':grado,'GradoT':gradoT,'Id_persona':id_persona,'Id_institucion':id_institucion}
+    session.execute("INSERT INTO aula (Id_Aula, Grupo, GrupoT, Jornada, Grado, GradoT, Id_persona, Id_institucion) VALUES (:Id_Aula,:Grupo,:GrupoT,Jornada,Grado,GradoT,Id_persona,Id_institucion)",dict_)
+    session.commit()
+
+    return True
