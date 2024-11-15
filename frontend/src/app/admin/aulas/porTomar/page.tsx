@@ -32,7 +32,10 @@ function ByTutor(){
       if (!session) {
         router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
       } else {
-        router.push('/aulas/porTomar'); // Redirige a "/aulas" si la sesión existe
+        if(!(session.user?.email === "admin")){
+          router.push('/denegado')
+        }
+        router.push('admin/aulas'); // Redirige a "/aulas" si la sesión existe
       }
     }, [session, status, router]);
     const id = session?.user?.name?.split(' ')[0];

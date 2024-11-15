@@ -9,6 +9,14 @@ import datetime
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
 
+
+@app.route('/api/estutor',methods=['GET'])
+def get_estutor():
+    tutor = request.args.get("tutor")
+    aula = request.args.get("aula")
+    estutor = ga.esTutor(tutor,aula)
+    return jsonify(estutor)
+
 @app.route('/api/validarUsuario', methods=['GET'])
 def get_User():
     usuario = request.args.get('usuario')
@@ -56,7 +64,10 @@ def post_asistencias():
     aula = data.get('aula')
     asistencias = data.get('asistencias')
     fecha = data.get('fecha')
-    message = sa.insert_asistencia_Aula(aula,asistencias,fecha)
+    tutor = data.get('tutor')
+    atutor = data.get('atutor')
+    sa.insertar_asistencia_Tutor(tutor,atutor)
+    sa.insert_asistencia_Aula(aula,asistencias,fecha)
     return
 
 @app.route('/api/escuelas', methods=['GET'])

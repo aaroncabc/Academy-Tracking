@@ -25,14 +25,17 @@ function Aula(){
     const aula = params.id_aula;   // Accede al parámetro `mode`
     const { data: session, status } = useSession();
     const router = useRouter();
-  
+
     useEffect(() => {
       if (status === 'loading') return; // Espera hasta que se cargue la sesión
   
       if (!session) {
         router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
       } else {
-        router.push(`/listaAlumnos/${aula}`); // Redirige a "/aulas" si la sesión existe
+        if(!(session.user?.email === "admin")){
+          router.push('/denegado')
+        }
+        router.push('admin/aulas'); // Redirige a "/aulas" si la sesión existe
       }
     }, [session, status, router]);
 

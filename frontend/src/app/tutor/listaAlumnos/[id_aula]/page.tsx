@@ -16,6 +16,28 @@ export default function AulaPage() {
     </>
   );
 }
+
+
+const fetchEsTutor = async (tutor:any, aula:any) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/estutor?tutor=${tutor}&aula=${aula}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; // Devuelve los datos si es necesario
+  } catch (error) {
+    console.error('Error al realizar la petición:', error);
+  }
+};
+
 function Aula(){
     interface EstudianteData {
         id_std: string;
@@ -45,15 +67,20 @@ function Aula(){
     const aula = params.id_aula;   // Accede al parámetro `mode`
     const { data: session, status } = useSession();
     const router = useRouter();
-  
+    const tutor = session?.user?.name?.split(' ')[0]
+
     useEffect(() => {
-      if (status === 'loading') return; // Espera hasta que se cargue la sesión
-  
-      if (!session) {
-        router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
-      } else {
-        router.push(`/tutor/listaAlumnos/${aula}`); // Redirige a "/aulas" si la sesión existe
-      }
+      const checkSession = async () => {
+        if (status === 'loading') return; // Espera hasta que se cargue la sesión
+    
+        if (!session || await fetchEsTutor(tutor,aula)) {
+          router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
+        } else {
+            router.push(`/tutor/listaAlumnos/${aula}`);  
+            router.push('/denegado')
+        }
+      };
+      checkSession();
     }, [session, status, router]);
 
     const url = aula ? `http://localhost:5000/api/listaAlumnos?aula=${aula}` : '';
@@ -74,9 +101,6 @@ function Aula(){
     // envio de formulario
     const [error, setError] = useState<string | null>(null);    
     async function asistencia(formData: FormData) {
-        const user = formData.get("user")?.toString();
-        const password = formData.get("password")?.toString();
-
         // Mostrar alerta de carga
         const loadingAlert = Swal.fire({
             title: 'Cargando...',
@@ -95,7 +119,6 @@ function Aula(){
               },
               body: JSON.stringify({ aula, asistencias: attendanceData, fecha: currentDate }), // Incluye aula y los datos de asistencia
             });
-            console.log(res);
             if (!res.ok) {
                 await Swal.fire({
                     title: 'Error',
@@ -150,13 +173,6 @@ function Aula(){
               {error && <p className="text-red-500">{error}</p>}
           {/* <Button color="primary" href="/studentboard/tests" as={Link}  className="font-semibold">inciar</Button>  */}
           <Button variant="soft" type="submit"  className="font-semibold">iniciar</Button> 
-      </div>
-      <div>
-        {attendanceData.map((item, index) => (
-          <p key={index}>
-            {item.nombre} - {item.asistencia}
-          </p>
-        ))}
       </div>
       </form>
     </main>

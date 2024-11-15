@@ -5,7 +5,6 @@ import React, { use, useEffect, useState } from 'react';
 import { Flex, Text, Grid, Card, Badge, Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import { truncate } from 'fs';
-import NavBar from '../components/navbar';
 import { useRouter } from 'next/navigation';
 import { Sidebar } from 'lucide-react';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -38,14 +37,18 @@ function Asistencias() {
     if (!session) {
       router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
     } else {
-      router.push('/aulas'); // Redirige a "/aulas" si la sesión existe
+      if(!(session.user?.email === "admin")){
+        router.push('/denegado')
+      }else{
+      router.push('admin/aulas'); // Redirige a "/aulas" si la sesión existe
+      }
     }
   }, [session, status, router]);
   const [data, setData] = useState<AulaData[]>([]);
   const id = session?.user?.name?.split(' ')[0];
   const usuario = session?.user?.name?.split(' ')[1];  
   useEffect(() => {
-    fetch('http://localhost:5000/api/aulasTutor?tutor='+id)
+    fetch('http://localhost:5000/api/aulas')
       .then(response => response.json())
       .then(data => setData(data));
   })

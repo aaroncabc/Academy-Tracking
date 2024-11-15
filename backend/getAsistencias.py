@@ -41,6 +41,26 @@ def obtener_aulas_tutor(id_tutor: int):
         
     return lista_array  # Retornar lista_array fuera del finally
 
+
+def  esTutor(id_tutor,id_aula):
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    query = text("SELECT id_persona FROM aula WHERE id_aula = :id_aula")
+    try:
+        res = session.execute(query,{"id_aula":id_aula})
+        session.commit()
+        tutor = res.fetchall()[0][0]
+        if(int(tutor) == int(id_tutor)):
+            return True
+    except Exception as e:
+        session.rollback()
+        print("error en esa kga")
+    finally:
+        session.close()
+    return False
+
+
+
 ##ready
 # Función para obtener la lista de alumnos de un aula
 def obtener_lista_Alumnos(id_aula: int): 
