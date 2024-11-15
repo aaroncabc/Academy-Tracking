@@ -27,8 +27,12 @@ def obtener_aulas():
         
     return lista_array  # Retornar lista_array fuera del finally
 
-def Crear_aula(id_aula:int,grupo:int,grupoT:str,jornada:str,grado:int,gradoT:str,id_persona:int,id_institucion:int):
+def Crear_aula(grupo:int,grupoT:str,jornada:str,grado:int,gradoT:str,id_persona:int,id_institucion:int):
+    last_id_result = session.execute(text("SELECT COALESCE(MAX(id_aula), 0) FROM aula"))
+    last_id = last_id_result.scalar()  
+    id_aula= last_id + 1
     grado_dict={"Primero":1,"Segundo":2,"Tercero":3,"Cuarto":4,"Quinto":5}
+    
     Session = sessionmaker(bind=engine)
     session = Session()
     lista = session.execute(text("SELECT * FROM aula"))
@@ -44,8 +48,8 @@ def Crear_aula(id_aula:int,grupo:int,grupoT:str,jornada:str,grado:int,gradoT:str
         return {"error": "El primer dígito de grupo debe coincidir con el grado."}
     else:
         for i in lista: #valida si el grupo colocado o el id_aula ya existen
-            if i[0] == id_aula or i[1] == grupo:
-                return {"error": "El id_aula o grupo ya existen en la base de datos."}
+            if  i[1] == grupo:
+                return {"error": "grupo ya existen en la base de datos."}
 
     if grado_dict[gradoT] != grado: #valida si el grado colocado corresponde al numero del grado
         return {"error": "El valor de GradoT no coincide con el número del grado."}

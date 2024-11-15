@@ -76,10 +76,9 @@ def get_escuelas():
     print(escuelas)
     return jsonify(escuelas)
 
-@app.route('/api/crear_aulas',methods=['POST'])
+@app.route('/api/crearAula',methods=['POST'])
 def post_aulas():
     data = request.json
-    id_aula=data.get('id_aula')
     grupo=data.get('grupo')
     grupoT=data.get('grupoT')
     jornada=data.get('jornada')
@@ -89,7 +88,7 @@ def post_aulas():
     id_institucion=data.get('id_institucion')
 
     try:
-        resultado = gau.Crear_aula(id_aula, grupo, grupoT, jornada, grado, gradoT, id_persona, id_institucion)
+        resultado = gau.Crear_aula(grupo, grupoT, jornada, grado, gradoT, id_persona, id_institucion)
 
         if resultado is True:
             return jsonify({"success": "Aula creada correctamente"}), 201
