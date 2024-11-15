@@ -170,10 +170,6 @@ const data2 = {
       {
         title: "Mi semana",
         url: "#",
-      },
-      {
-        title: "Mi dia",
-        url: "#",
       }
     ],
   },{

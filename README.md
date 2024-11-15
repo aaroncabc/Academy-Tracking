@@ -1,11 +1,11 @@
 # POR HACER EN ESTE BRANCH
 ## importante
-2. vista de crud para aula
-3. vista de crud para horario
-
+1. vista de crud para aula
+2. vista de crud para horario
+3. vista de horario
 ## en progreso
 - limitaciones segun rol (considerar el rol de administrador)
-- validaciones para la toma de lista (no tomar lista de un mismo salon 2 veces una misma fecha) 
+- arreglar errores visuales en la toma de asistencia (No muestra el mensaje correcto al tomar)
 
 # Academy-Tracking
 # Proyecto Final - IST7111 Bases de Datos
