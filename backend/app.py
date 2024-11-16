@@ -6,9 +6,20 @@ import getAulas as gau
 import getUser as gu
 import GetInstituciones as gi
 import datetime
+import psycopg2
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
 
+
+# Configuración de conexión
+def get_connection():
+    return psycopg2.connect(
+        dbname="Flake",
+        user="postgres",
+        password="titajose23",
+        host="localhost",
+        port="5432"
+    )
 
 @app.route('/api/estutor',methods=['GET'])
 def get_estutor():
@@ -87,16 +98,7 @@ def post_aulas():
     id_persona=data.get('id_persona')
     id_institucion=data.get('id_institucion')
 
-    try:
-        resultado = gau.Crear_aula(grupo, grupoT, jornada, grado, gradoT, id_persona, id_institucion)
-
-        if resultado is True:
-            return jsonify({"success": "Aula creada correctamente"}), 201
-        else:
-            return jsonify(resultado), 400
-        
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return
 
 if __name__ == '__main__':
     app.run(debug=True)
