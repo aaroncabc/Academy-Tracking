@@ -33,7 +33,7 @@ function Aula(){
       if (!session) {
         router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
       } else {
-        if(!(session.user?.email === "admin")){
+        if(!(session.user?.email?.trim() === "admin")){
           router.push('/denegado')
         }
         router.push(`/admin/listaAlumnos/${aula}`); // Redirige a "/aulas" si la sesión existe
