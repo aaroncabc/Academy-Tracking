@@ -55,22 +55,22 @@ const data = {
           url: "#",
         },
         {
-          title: "Estudiantes",
-          url: "#",
+          title: "Aulas",
+          url: "/admin/aulas",
         },
       ],
     },
     {
-      title: "Profesores",
+      title: "Tutores",
       url: "#",
       icon: Apple,
       items: [
         {
-          title: "Añadir Profesor",
+          title: "Añadir Tutor",
           url: "#",
         },
         {
-          title: "Consultar Profesores",
+          title: "Consultar Tutores",
           url: "#",
         },
 
@@ -100,44 +100,20 @@ const data = {
   ],
 },
 {
-  title: "Salones",
+  title: "Aulas",
   url: "#",
   icon: GraduationCap,
   items: [
     {
-      title: "Añadir Salon",
+      title: "Añadir Aula",
       url: "#",
     },
     {
-      title: "Consultar Salones",
+      title: "Actualizar Aulas",
       url: "#",
     },
   ],
-}
-,
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+},
   ],
 }
 
@@ -187,17 +163,6 @@ const data2 = {
         }
       ],
     },
-  {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-      ],
-    },
   ],
 }
 
@@ -218,7 +183,7 @@ function AppSidebarComponent({ ...props }: React.ComponentProps<typeof Sidebar>)
     return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
-        <NavMain items={session?.user?.email === "admin" ? data.navMain : data2.navMain} />
+        <NavMain items={session?.user?.email?.trim() === "admin" ? data.navMain : data2.navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={{ name: session?.user?.name?.split(' ')[1] || '' }} />

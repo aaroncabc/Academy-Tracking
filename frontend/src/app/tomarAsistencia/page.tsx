@@ -1,3 +1,5 @@
+// implementar vista para tomar asistencia
+
 // app/asistencias/page.tsx
 'use client';
 
@@ -37,42 +39,31 @@ function Asistencias() {
     if (!session) {
       router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
     } else {
-      if(!(session.user?.email?.trim() === "admin")){
-        router.push('/denegado')
-      }else{
-      router.push('/admin/aulas'); // Redirige a "/aulas" si la sesión existe
-      }
+      router.push('/tomarAsistencia'); // Redirige a "/aulas" si la sesión existe
     }
   }, [session, status, router]);
   const [data, setData] = useState<AulaData[]>([]);
   const id = session?.user?.name?.split(' ')[0];
   const usuario = session?.user?.name?.split(' ')[1];  
-  useEffect(() => {
-    fetch('http://localhost:5000/api/aulas')
-      .then(response => response.json())
-      .then(data => setData(data));
-  })
+  if(session?.user?.email?.trim() === "admin"){
+    useEffect(() => {
+        fetch('http://localhost:5000/api/aulas')
+        .then(response => response.json())
+        .then(data => setData(data));
+    })
+  }else{
+    useEffect(() => {
+        fetch('http://localhost:5000/api/aulasTutor?tutor='+id)
+        .then(response => response.json())
+        .then(data => setData(data));
+    })
+    }
 
   // En el return, asegúrate de que `rol` se muestra en el div:
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Grid columns="3" gap="3" rows="repeat(2, 160px)" width="auto">
-          {data.length > 0 ? (
-            data.map((item, index) => (
-              <Card key={index}>
-                <Heading><a href={`/admin/listaAlumnos/${item.id_aula}`}><strong>Grupo:</strong> {item.grupo}</a></Heading>
-                <Badge><strong>Grado:</strong> {item.gradot} ({item.grado}°)</Badge>
-                <Flex direction={"column"} pt={"20px"}>
-                  <Text wrap={"pretty"}><strong>Institución:</strong> {item.institucion}</Text>
-                </Flex>
-              </Card>
-            ))
-          ) : (
-            <p>Cargando datos...</p>
-          )}
-        </Grid>
-        
+               
       </main>
     </div>
   );

@@ -1,12 +1,20 @@
 'use client';
 import Image from "next/image";
 import Swal from "sweetalert2";
-import {signIn} from "next-auth/react";
+import {SessionProvider, signIn} from "next-auth/react";
 import React, { useEffect, useState } from 'react';
 import { useParams,useRouter} from "next/navigation";
 import { Flex, Text, Button, Grid, Card, Badge, Heading, Link, TextField} from "@radix-ui/themes";
 // // import prisma from "@/lib/prisma";
-export default function Login(){
+export default function CrearAulaPage(){
+    return(
+        <SessionProvider>
+        <CrearAula></CrearAula>
+        </SessionProvider>
+    )
+}
+
+function CrearAula(){
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
@@ -14,6 +22,10 @@ export default function Login(){
     async function enviar(formData: FormData) {
         // agregar campos extraidos del formulario de la forma
         // const ** = formData.get("**")?.toString()
+        const codigo = formData.get("codigo")?.toString()
+        const institucion = formData.get("**")?.toString()
+        const cursoNumero = formData.get("**")?.toString()
+        const Jornada = formData.get("**")?.toString()
         ////////////////////////////////////////7
 
         // Mostrar alerta de carga

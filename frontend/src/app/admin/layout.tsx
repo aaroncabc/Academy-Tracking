@@ -7,7 +7,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { SessionProvider } from 'next-auth/react';
 
 
-export default function aulasLayout({
+export default function Layout({
     children,
   }: {
     children: React.ReactNode;

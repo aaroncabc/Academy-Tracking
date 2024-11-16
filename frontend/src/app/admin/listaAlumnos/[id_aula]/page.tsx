@@ -5,6 +5,7 @@ import { useParams,useRouter } from "next/navigation";
 import { Flex, Text, Button, Grid,Card,Badge,Heading } from "@radix-ui/themes";
 import { SessionProvider, useSession } from "next-auth/react";
 import NavBar from "@/app/components/navbar";
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 export default function AulaPage() {
   return (
@@ -35,7 +36,7 @@ function Aula(){
         if(!(session.user?.email === "admin")){
           router.push('/denegado')
         }
-        router.push('admin/aulas'); // Redirige a "/aulas" si la sesión existe
+        router.push(`/admin/listaAlumnos/${aula}`); // Redirige a "/aulas" si la sesión existe
       }
     }, [session, status, router]);
 
@@ -47,27 +48,25 @@ function Aula(){
             .then(data => setData(data));
     }, []);
     
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-    <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-    <Card>
-    <Heading>Lista de Alumnos</Heading>
-    <Flex direction={"column"} gap={"4"} p={"3"}>
-    {data? (
-          data.map((item, index) => (
-            <Flex direction={"column"} key={index}>
-                <Heading> {item.nombre} {item.snombre?item.snombre:''} {item.apellido1} {item.apellido2} </Heading>
-                <Flex direction={"column"} pt={"20px"}>
-                <Text wrap={"pretty"}><strong>Asistencia:</strong></Text>
-                </Flex>
-            </Flex>
-          ))
-        ) : (
-          <p>Cargando datos...</p>
-        )}
-    </Flex>
-    </Card>
-    </main>
-    </div>
-  );
-}
+    return (
+      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-8 row-start-2 items-start sm:items-start">
+      <Heading>Lista de Alumnos</Heading>
+      <form>
+        <div className="flex flex-col gap-4 p-4">
+                  {data? (
+                  data.map((item, index) => (
+                    <Flex direction={"column"} key={index}>
+                        <Label> {item.nombre} {item.snombre?item.snombre:''} {item.apellido1} {item.apellido2} </Label>
+                    </Flex>
+                  ))
+                ) : (
+                  <p>Cargando datos...</p>
+                )}
+            {/* <Button color="primary" href="/studentboard/tests" as={Link}  className="font-semibold">inciar</Button>  */}
+        </div>
+        </form>
+      </main>
+      </div>
+    );
+  }
