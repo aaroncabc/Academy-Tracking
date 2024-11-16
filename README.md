@@ -2,10 +2,11 @@
 ## importante
 1. vista de crud para aula
 2. vista de crud para horario
-3. vista de horario
+3. vista de crud para persona
+4. vista de crud para institucion
+6. vista de horario
 ## en progreso
-- limitaciones segun rol (considerar el rol de administrador)
-- arreglar errores visuales en la toma de asistencia (No muestra el mensaje correcto al tomar)
+- Re hacer la vista de toma de asistencia
 
 # Academy-Tracking
 # Proyecto Final - IST7111 Bases de Datos

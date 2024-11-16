@@ -1,6 +1,5 @@
 // implementar vista para tomar asistencia
 
-// app/asistencias/page.tsx
 'use client';
 
 import React, { use, useEffect, useState } from 'react';
