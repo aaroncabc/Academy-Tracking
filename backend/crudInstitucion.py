@@ -1,5 +1,5 @@
 import psycopg2
-from app import get_connection
+from config import get_connection
 
 """
 CREATE TABLE Institucion
@@ -36,13 +36,14 @@ def create_institucion(data):
 
 # Leer todas las instituciones
 def read_all_instituciones():
-    query = "SELECT * FROM Institucion;"
+    query = "SELECT id_institucion,nombre FROM Institucion;"
     conn = get_connection()
     try:
         with conn:
             with conn.cursor() as cur:
                 cur.execute(query)
-                return cur.fetchall()
+                lista_array = [{"id": row[0],"Nombre":row[1].strip()} for row in cur.fetchall()]
+                return lista_array
     except Exception as e:
         print("Error al leer las instituciones:", e)
     finally:

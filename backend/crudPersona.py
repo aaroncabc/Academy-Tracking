@@ -1,5 +1,5 @@
 import psycopg2
-from app import get_connection
+from config import get_connection
 """
 CREATE TABLE Persona
 (
@@ -40,13 +40,14 @@ def create_persona(data):
 
 # Leer todas las personas
 def read_all_personas():
-    query = "SELECT * FROM Persona;"
+    query = "SELECT id_persona,nombre FROM Persona;"
     conn = get_connection()
     try:
         with conn:
             with conn.cursor() as cur:
                 cur.execute(query)
-                return cur.fetchall()
+                lista_array = [{"id": row[0],"Nombre":row[1].strip()} for row in cur.fetchall()] 
+                return lista_array
     except Exception as e:
         print("Error al leer las personas:", e)
     finally:

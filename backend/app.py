@@ -5,21 +5,15 @@ import sendAsistencias as sa
 import getAulas as gau
 import getUser as gu
 import GetInstituciones as gi
+import crudPersona
+import crudInstitucion
+import crudAula
 import datetime
 import psycopg2
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
 
 
-# Configuración de conexión
-def get_connection():
-    return psycopg2.connect(
-        dbname="Flake",
-        user="postgres",
-        password="titajose23",
-        host="localhost",
-        port="5432"
-    )
 
 @app.route('/api/estutor',methods=['GET'])
 def get_estutor():
@@ -87,18 +81,51 @@ def get_escuelas():
     print(escuelas)
     return jsonify(escuelas)
 
-@app.route('/api/crearAula',methods=['POST'])
-def post_aulas():
-    data = request.json
-    grupo=data.get('grupo')
-    grupoT=data.get('grupoT')
-    jornada=data.get('jornada')
-    grado=data.get('grado')
-    gradoT=data.get('gradoT')
-    id_persona=data.get('id_persona')
-    id_institucion=data.get('id_institucion')
 
-    return
+@app.route('/api/getPersonas', methods=['GET'])
+def get_personas():
+    try:
+        personas = crudPersona.read_all_personas()
+        return jsonify(personas), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/getInstituciones', methods=['GET'])
+def get_instituciones():
+    try:
+        instituciones = crudInstitucion.read_all_instituciones()
+        return jsonify(instituciones), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 500
+  
+@app.route('/api/createAula', methods=['POST'])  
+def create_aula_endpoint():
+    """
+    Endpoint para crear un aula en la tabla Aula.
+    """
+    data = request.json
+
+    # Validación básica
+    required_fields = ["Grupo", "Jornada", "Grado", "GradoT", "Id_persona", "Id_institucion", "Año"]
+    for field in required_fields:
+        if field not in data or not data[field]:
+            return jsonify({"error": f"El campo {field} es obligatorio"}), 400
+
+    try:
+        aula_id = crudAula.create_aula(
+            Grupo=data["Grupo"],
+            GrupoT=data.get("GrupoT", None),
+            Jornada=data["Jornada"],
+            Grado=int(data["Grado"]),
+            GradoT=data["GradoT"],
+            Id_persona=int(data["Id_persona"]),
+            Id_institucion=int(data["Id_institucion"]),
+            Año=int(data["Año"])
+        )
+        return jsonify({"message": "Aula creada exitosamente", "Id_Aula": aula_id}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

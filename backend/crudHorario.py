@@ -1,5 +1,5 @@
 import psycopg2
-from app import get_connection
+from config import get_connection
 """
 CREATE TABLE Horario
 (
