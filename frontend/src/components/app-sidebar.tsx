@@ -47,14 +47,6 @@ const data = {
           url: "/dashboard",
         },
         {
-          title: "Profesores",
-          url: "#",
-        },
-        {
-          title: "Escuelas",
-          url: "#",
-        },
-        {
           title: "Aulas",
           url: "/admin/aulas",
         },

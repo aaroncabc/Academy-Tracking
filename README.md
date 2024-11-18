@@ -1,10 +1,8 @@
 # POR HACER EN ESTE BRANCH
 ## importante
-1. vista de crud para aula
-2. vista de crud para horario
-3. vista de crud para persona
-4. vista de crud para institucion
-6. vista de horario
+1. vista de actualizacion para aula
+2. vista de actializacion para persona
+3. conectar vista de horario con el backend
 ## en progreso
 - Re hacer la vista de toma de asistencia
 
