@@ -90,6 +90,32 @@ def get_personas():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+@app.route('/api/createPersona', methods=['POST'])
+def post_persona():
+    data = request.json
+    required_fields = ["Nombre", "Apellido1","Apellido2","Tipo_identificacion","Numero_documento","Direccion", "Celular", "Cargo", "Usuario","Password"]
+    for field in required_fields:
+        if field not in data or not data[field]:
+            return jsonify({"error": f"El campo {field} es obligatorio"}), 400
+
+    try:
+        persona_id = crudPersona.create_persona(
+            Nombre = data["Nombre"],
+            Segundo_nombre = data.get("Segundo_nombre", None),
+            Apellido1 = data["Apellido1"],
+            Apellido2 = data["Apellido2"],
+            Tipo_identificacion = data["Tipo_identificacion"],
+            Numero_documento = data["Numero_documento"],
+            Direccion = data["Direccion"],
+            Celular = data["Celular"],
+            Cargo = "Tutor",
+            Usuario = data["Usuario"],
+            Password = data["Password"]
+        )
+        return jsonify({"message": "Persona creada exitosamente", "Id_Persona": persona_id}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 @app.route('/api/getInstituciones', methods=['GET'])
 def get_instituciones():
     try:

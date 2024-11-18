@@ -14,26 +14,6 @@ CREATE TABLE Institucion
 );
 """
 
-# Crear una institución
-def create_institucion(data):
-    query = """
-    INSERT INTO Institucion (Codigo, Nombre, Rector, Localidad, Barrio, Direccion)
-    VALUES (%s, %s, %s, %s, %s, %s)
-    RETURNING Id_institucion;
-    """
-    conn = get_connection()
-    try:
-        with conn:
-            with conn.cursor() as cur:
-                cur.execute(query, data)
-                id_institucion = cur.fetchone()[0]
-                print(f"Institución creada exitosamente con Id_institucion: {id_institucion}")
-                return id_institucion
-    except Exception as e:
-        print("Error al crear la institución:", e)
-    finally:
-        conn.close()
-
 # Leer todas las instituciones
 def read_all_instituciones():
     query = "SELECT id_institucion,nombre FROM Institucion;"
