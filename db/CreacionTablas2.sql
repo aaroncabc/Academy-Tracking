@@ -101,7 +101,6 @@ CREATE TABLE Horario
  Id_Bloque_electivo int NOT NULL,
  Id_Aula            int NOT NULL,
  CONSTRAINT PK_6 PRIMARY KEY ( Id_H ),
- CONSTRAINT FK_7 FOREIGN KEY ( Id_Bloque_electivo ) REFERENCES Año_electivo ( Id_Bloque_electivo ),
  CONSTRAINT FK_8 FOREIGN KEY ( Id_Aula ) REFERENCES Aula ( Id_Aula )
 );
 

@@ -25,9 +25,9 @@ INSERT INTO aula (Id_Aula, Grupo, GrupoT, Jornada, Grado, GradoT, Id_persona, Id
 
 -- Horarios de clases para cada bloque lectivo y aula
 INSERT INTO horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Bloque_electivo, Id_Aula) VALUES
-(1, '08:00:00', '08:45:00', 'L', 'Lunes', 1, 1),
-(2, '08:45:00', '09:30:00', 'L', 'Lunes', 1, 2),
-(3, '09:00:00', '10:40:00', 'M', 'Martes', 1, 3);  -- Bloque de dos horas para quinto grado
+(1, '08:00:00', '08:45:00', 'L', 'Lunes', 1),
+(2, '08:45:00', '09:30:00', 'L', 'Lunes', 2),
+(3, '09:00:00', '10:40:00', 'M', 'Martes', 3);  -- Bloque de dos horas para quinto grado
 
 -- Estudiantes en Aula 1 (Tercero)
 INSERT INTO estudiantes (Id_Std, Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_Identicficacion, Numero_identificacion, Genero, Estrato, F_nacimiento, Id_Salon) VALUES

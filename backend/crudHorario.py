@@ -10,7 +10,6 @@ CREATE TABLE Horario
     Dia_text           char(50) NOT NULL,
     Id_Bloque_electivo int NOT NULL,
     Id_Aula            int NOT NULL,
-    CONSTRAINT FK_7 FOREIGN KEY (Id_Bloque_electivo) REFERENCES Año_electivo (Id_Bloque_electivo),
     CONSTRAINT FK_8 FOREIGN KEY (Id_Aula) REFERENCES Aula (Id_Aula)
 );
 """
