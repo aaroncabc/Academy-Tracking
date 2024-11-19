@@ -16,7 +16,7 @@ def obtener_usuario(usuario:str):
     lista_array = []  # Inicializar lista_array antes del bloque try
 
     try:
-        lista = session.execute(text("SELECT id_persona, usuario,password,cargo FROM persona WHERE usuario = :usuario "), {"usuario":usuario})
+        lista = session.execute(text("SELECT id_persona, usuario,pass_word,cargo FROM persona WHERE usuario = :usuario "), {"usuario":usuario})
         lista_array = [{"id_persona":row[0],"usuario": row[1],"password":row[2],"rol":row[3]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
         session.commit()
         print("Registros obtenidos exitosamente en la tabla aula.")

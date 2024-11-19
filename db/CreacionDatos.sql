@@ -6,10 +6,10 @@ INSERT INTO anio_electivo (Id_Bloque_electivo, Fecha_inicio, Fecha_fin) VALUES
 (4, '2024-10-07', '2024-12-06');
 
 -- Insertar datos de personal
-INSERT INTO persona (Id_persona, Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_identificacion, Numero_documento, Direccion, Celular, Cargo) VALUES
-(1, 'Laura', 'Andrea', 'Gómez', 'Martínez', 'CC', '12345678', 'Calle 10 #5-50', '3001234567', 'Docente'),
-(2, 'Carlos', 'Eduardo', 'Pérez', 'López', 'CC', '87654321', 'Calle 15 #7-80', '3012345678', 'Docente'),
-(3, 'Marta', 'Isabel', 'Rodríguez', 'Castro', 'CC', '23456789', 'Carrera 7 #11-25', '3023456789', 'Rectora');
+INSERT INTO persona (Id_persona, Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_identificacion, Numero_documento, Direccion, Celular, Cargo,usuario,pass_word) VALUES
+(1, 'Laura', 'Andrea', 'Gómez', 'Martínez', 'CC', '12345678', 'Calle 10 #5-50', '3001234567', 'Docente','lau','$2b$10$gIsYZ91vzUfT20fl5AwF..IaDFv09ud9zoHNIC4O8uNInhSB97SZm'),
+(2, 'Carlos', 'Eduardo', 'Pérez', 'López', 'CC', '87654321', 'Calle 15 #7-80', '3012345678', 'Docente','carlos','$2b$10$gIsYZ91vzUfT20fl5AwF..IaDFv09ud9zoHNIC4O8uNInhSB97SZm'),
+(3, 'Marta', 'Isabel', 'Rodríguez', 'Castro', 'CC', '23456789', 'Carrera 7 #11-25', '3023456789', 'admin','Marta','$2b$10$gIsYZ91vzUfT20fl5AwF..IaDFv09ud9zoHNIC4O8uNInhSB97SZm');
 
 -- Instituciones educativas
 INSERT INTO institucion (Id_institucion, codigo,Nombre, Rector, Localidad, Barrio, Direccion) VALUES
@@ -19,9 +19,9 @@ INSERT INTO institucion (Id_institucion, codigo,Nombre, Rector, Localidad, Barri
 
 -- Aulas en cada institución
 INSERT INTO aula (Id_Aula, Grupo, GrupoT, Jornada, Grado, GradoT, Id_persona, Id_institucion) VALUES
-(1, 301, 'A', 'Mañana', 3, 'Tercero', 1, 1),
-(2, 401, 'B', 'Tarde', 4, 'Cuarto', 2, 2),
-(3, 501, 'A', 'Mañana', 5, 'Quinto', 1, 1);
+(1, 301, 'A', 'Mañana', 3, 'Tercero', 1, 1,2024),
+(2, 401, 'B', 'Tarde', 4, 'Cuarto', 2, 2,2024),
+(3, 501, 'A', 'Mañana', 5, 'Quinto', 1, 1,2023);
 
 -- Horarios de clases para cada bloque lectivo y aula
 INSERT INTO horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Bloque_electivo, Id_Aula) VALUES

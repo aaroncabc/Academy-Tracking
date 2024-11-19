@@ -1,3 +1,4 @@
+from datetime import datetime,date
 import psycopg2
 from config import get_connection
 """
@@ -40,7 +41,8 @@ def create_aula(data):
 
 # Leer registros (todos)
 def read_all_aulas():
-    query = "SELECT id_aula,grupo,grupoT,gradoT,Nombre FROM Aula INNER JOIN institucion on(aula.id_institucion = institucion.id_institucion);"
+    año_actual = datetime.now().year
+    query = f"SELECT id_aula,grupo,grupoT,gradoT,Nombre,año FROM Aula INNER JOIN institucion on(aula.id_institucion = institucion.id_institucion) WHERE año = {año_actual};"
     conn = get_connection()
     try:
         with conn:

@@ -1,13 +1,13 @@
-CREATE TABLE Anio_electivo
+CREATE TABLE Anio_lectivo
 (
- Id_Bloque_electivo SERIAL int NOT NULL,
+ Id_Bloque_electivo int NOT NULL,
  Fecha_inicio       date NOT NULL,
  Fecha_fin          date NOT NULL,
  CONSTRAINT PK_9 PRIMARY KEY ( Id_Bloque_electivo ));
 
 CREATE TABLE Persona
 (
- Id_persona            SERIAL int NOT NULL,
+ Id_persona            int NOT NULL,
  Nombre                char(50) NOT NULL,
  Segundo_nombre        char(50) NULL,
  apellido1             char(50) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE Persona
  Celular               char(50) NOT NULL,
  Cargo                 char(50) NOT NULL,
  usuario               char(50) NOT NULL,
- password              char(200) NOT NULL,
+ pass_word              char(200) NOT NULL,
  CONSTRAINT PK_4 PRIMARY KEY ( Id_persona )
 );
 
@@ -26,17 +26,17 @@ CREATE TABLE Institucion
 (
  Id_institucion SERIAL int NOT NULL,
  Codigo         char(50) NOT NULL,
- Nombre         char(50) NOT NULL,
- Rector         char(50) NOT NULL,
- Localidad      char(50) NOT NULL,
- Barrio         char(50) NOT NULL,
- Direccion      char(50) NOT NULL,
+ Nombre         char(200) NOT NULL,
+ Rector         char(200) NOT NULL,
+ Localidad      char(100) NOT NULL,
+ Barrio         char(100) NOT NULL,
+ Direccion      char(100) NOT NULL,
  CONSTRAINT PK_2 PRIMARY KEY ( Id_institucion )
 );
 
 CREATE TABLE Aula
 (
- Id_Aula        SERIAL int NOT NULL,
+ Id_Aula        int NOT NULL,
  Grupo          int NOT NULL,
  GrupoT         char(50) NULL,
  Jornada        char(50) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE Aula
 
 CREATE TABLE AsistenciaTutor
 (
- ID_AT   SERIAL int NOT NULL,
+ ID_AT   int NOT NULL,
  Asistio bool NOT NULL,
  Motivo  varchar(500) NULL,
  Id_Aula int NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE AsistenciaTutor
 
 CREATE TABLE Estudiantes
 (
- Id_Std                  SERIAL int NOT NULL,
+ Id_Std                  int NOT NULL,
  Nombre                  char(50) NOT NULL,
  Segundo_nombre          char(50) NULL,
  apellido1               char(50) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE Estudiantes
 
 CREATE TABLE Notas
 (
- Id_Notas           SERIAL int NOT NULL,
+ Id_Notas           int NOT NULL,
  Nota_1             float4 NOT NULL,
  Nota_2             float4 NOT NULL,
  Nota_3             float4 NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE Notas
 
 CREATE TABLE Horario
 (
- Id_H               SERIAL int NOT NULL,
+ Id_H               int NOT NULL,
  Hora_i             time NOT NULL,
  Hora_f             time NOT NULL,
  Dia_I              char(1) NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE Horario
 
 CREATE TABLE Asistencia
 (
- ID_Asis SERIAL int NOT NULL,
+ ID_Asis int NOT NULL,
  Id_Std  int NOT NULL,
  Fecha   date NOT NULL,
  Asistio bool NOT NULL,

@@ -32,6 +32,7 @@ import { title } from "process"
 import { useRouter } from "next/navigation"
 import { Session } from "inspector/promises"
 import { SessionProvider, useSession } from "next-auth/react"
+import { url } from "inspector";
 
 //datos de ejemplo para usuarios
 const data = { 
@@ -49,7 +50,7 @@ const data = {
         {
           title: "Aulas",
           url: "/admin/aulas",
-        },
+        }
       ],
     },
     {
@@ -59,7 +60,7 @@ const data = {
       items: [
         {
           title: "Añadir Tutor",
-          url: "#",
+          url: "/admin/cruds/persona",
         },
         {
           title: "Consultar Tutores",
@@ -75,7 +76,7 @@ const data = {
   items: [
     {
       title: "Añadir Estudiante",
-      url: "#",
+      url: "/admin/cruds/estudiante",
     },
     {
       title: "Consultar Estudiantes",
@@ -98,7 +99,7 @@ const data = {
   items: [
     {
       title: "Añadir Aula",
-      url: "#",
+      url: "/admin/cruds/aula",
     },
     {
       title: "Actualizar Aulas",
@@ -127,7 +128,7 @@ const data2 = {
         },
         {
           title: "Notas",
-          url: "tutor/notas",
+          url: "/tutor/notas",
         }
       ],
     },{
