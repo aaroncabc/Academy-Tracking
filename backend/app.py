@@ -124,6 +124,14 @@ def get_instituciones():
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/getAulas', methods=['GET'])
+def get_all_aulas():
+    try:
+        aulas = crudAula.read_all_aulas()
+        return jsonify(aulas), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
   
 @app.route('/api/createAula', methods=['POST'])  
 def create_aula_endpoint():

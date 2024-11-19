@@ -40,13 +40,13 @@ def create_aula(data):
 
 # Leer registros (todos)
 def read_all_aulas():
-    query = "SELECT * FROM Aula;"
+    query = "SELECT id_aula,grupo,grupoT,gradoT,Nombre FROM Aula INNER JOIN institucion on(aula.id_institucion = institucion.id_institucion);"
     conn = get_connection()
     try:
         with conn:
             with conn.cursor() as cur:
                 cur.execute(query)
-                return cur.fetchall()
+                return [{"id": row[0],"grupo":row[1],"grupoT":row[2].strip(),"grado":row[3],"institucion":row[4]} for row in cur.fetchall()]
     except Exception as e:
         print("Error al leer las aulas:", e)
     finally:
