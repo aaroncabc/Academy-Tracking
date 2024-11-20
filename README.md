@@ -1,6 +1,5 @@
 # POR HACER EN ESTE BRANCH
 ## importante
-1. vista de actualizacion para aula
 2. vista de actializacion para persona
 3. vista de actualizacion para estudiantes
 4. conectar vista de horario con el backend
