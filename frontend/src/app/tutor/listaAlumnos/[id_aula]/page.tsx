@@ -53,13 +53,26 @@ function Aula(){
             .then(response => response.json())
             .then(data => setData(data));
     }, []);
-
+    const [esTutor, setEsTutor] = useState<boolean>(false);
+    useEffect(() => {
+      if(session?.user?.email?.trim() !== "admin"){
+      fetch('http://localhost:5000/api/esTutor?tutor='+session?.user?.name?.split(' ')[0]+'&aula='+aula)  // URL de la API Flask
+        .then(response => response.json())
+        .then(data => setEsTutor(data));}
+    })
+    useEffect(() => {
+    if (esTutor === false && session?.user?.email?.trim() !== "admin"){
+        router.push('/denegado')
+    }
+  
+    }, [esTutor]);
 
     
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
     <main className="flex flex-col gap-8 row-start-2 items-start sm:items-start">
-    <Heading>Lista de Alumnos</Heading>
+    <Heading>Lista de Alumnos
+    </Heading>
     <form>
       <div className="flex flex-col gap-4 p-4">
                 {data? (

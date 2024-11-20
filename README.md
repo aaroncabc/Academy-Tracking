@@ -6,6 +6,7 @@
 5. vista de notas
 ## en progreso
 - Re hacer la vista de toma de asistencia
+- vista de toma de notas
 
 # Academy-Tracking
 # Proyecto Final - IST7111 Bases de Datos

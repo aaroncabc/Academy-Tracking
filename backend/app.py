@@ -15,12 +15,12 @@ CORS(app)  # Esto permite peticiones desde el frontend React
 
 
 
-@app.route('/api/estutor',methods=['GET'])
+@app.route('/api/esTutor',methods=['GET'])
 def get_estutor():
     tutor = request.args.get("tutor")
     aula = request.args.get("aula")
     estutor = ga.esTutor(tutor,aula)
-    return jsonify(estutor)
+    return jsonify({"esTutor":estutor})
 
 @app.route('/api/validarUsuario', methods=['GET'])
 def get_User():
@@ -35,10 +35,9 @@ def get_Rol():
     return jsonify(rol)
     
 
-@app.route('/api/data', methods=['GET'])
-def get_data():
-    data = {'message': 'Hello from Flask!'}
-    return jsonify(data)
+
+
+
 
 @app.route('/api/aulas',methods=['GET'])
 def get_aulas():
@@ -124,7 +123,7 @@ def get_instituciones():
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
-    
+
 @app.route('/api/getAulas', methods=['GET'])
 def get_all_aulas():
     try:
