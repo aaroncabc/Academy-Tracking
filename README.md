@@ -1,9 +1,8 @@
 # POR HACER EN ESTE BRANCH
 ## importante
-2. vista de actializacion para persona
-3. vista de actualizacion para estudiantes
-4. conectar vista de horario con el backend
-5. vista de notas
+1. vista de actializacion para persona
+2. vista de actualizacion para estudiantes
+3. conectar vista de horario con el backend
 ## en progreso
 - Re hacer la vista de toma de asistencia
 - vista de toma de notas
