@@ -27,9 +27,9 @@ def obtener_aulas_tutor(id_tutor: int):
     Session = sessionmaker(bind=engine)
     session = Session()
     lista_array = []  # Inicializar lista_array antes del bloque try
-
+    año_actual  = datetime.now().year
     try:
-        lista = session.execute(text("SELECT aula.grupo,aula.grado,aula.gradot,institucion.nombre,aula.id_aula FROM aula INNER JOIN institucion ON (aula.id_institucion = institucion.id_institucion) WHERE id_persona = :id_tutor"), {"id_tutor": id_tutor})
+        lista = session.execute(text("SELECT aula.grupo,aula.grado,aula.gradot,institucion.nombre,aula.id_aula FROM aula INNER JOIN institucion ON (aula.id_institucion = institucion.id_institucion) WHERE id_persona = :id_tutor AND aula.año = :año_actual"), {"id_tutor": id_tutor,"año_actual": año_actual})
         lista_array = [{"grupo": row[0],"grado":row[1],"gradot":row[2],"institucion":row[3],"id_aula":row[4]} for row in lista.fetchall()]  # _allrows() en lugar de acceder a `_allrows` directamente
         session.commit()
         print("Registros obtenidos exitosamente en la tabla aula.")

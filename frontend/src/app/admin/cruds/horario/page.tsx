@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Flex, Button, Card, TextField, Select, Heading } from "@radix-ui/themes";
+import { useSession } from "next-auth/react";
 
 export default function CrearHorarioPage() {
     const [error, setError] = useState<string | null>(null);
@@ -12,6 +13,20 @@ export default function CrearHorarioPage() {
     const [aulas, setAulas] = useState<any[]>([]); // Lista de aulas
 
     const router = useRouter();
+    const { data: session,status} = useSession();
+    useEffect(() => {
+      if (status === 'loading') return; // Espera hasta que se cargue la sesión
+  
+      if (!session) {
+        router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
+      } else {
+        if(!(session.user?.email?.trim() === "admin")){
+          router.push('/denegado')
+        }else{
+        router.push('/admin/cruds/persona'); // Redirige a "/aulas" si la sesión existe
+        }
+      }
+    }, [session, status, router]);
 
     useEffect(() => {
         // Cargar bloques electivos y aulas desde la API
