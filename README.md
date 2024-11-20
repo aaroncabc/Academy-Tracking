@@ -3,7 +3,8 @@
 1. vista de actualizacion para aula
 2. vista de actializacion para persona
 3. vista de actualizacion para estudiantes
-3. conectar vista de horario con el backend
+4. conectar vista de horario con el backend
+5. vista de notas
 ## en progreso
 - Re hacer la vista de toma de asistencia
 
