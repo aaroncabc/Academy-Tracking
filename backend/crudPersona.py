@@ -1,5 +1,7 @@
 import psycopg2
+from sqlalchemy import text
 from config import get_connection
+
 """
 CREATE TABLE Persona
 (
@@ -16,20 +18,30 @@ CREATE TABLE Persona
     Usuario               char(50) NOT NULL,
     Password              char(200) NOT NULL
 );
+
 """
 # Crear una persona
 def create_persona(data):
     query = """
-    INSERT INTO Persona (Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_identificacion,
-                         Numero_documento, Direccion, Celular, Cargo, Usuario, Password)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    RETURNING Id_persona;
+    INSERT INTO Persona (id_persona,Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_identificacion,
+                         Numero_documento, Direccion, Celular, Cargo, Usuario, Pass_word)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    RETURNING id_persona;
     """
     conn = get_connection()
     try:
         with conn:
             with conn.cursor() as cur:
-                cur.execute(query, data)
+                last_id_result = cur.execute("SELECT COALESCE(MAX(id_persona), 0) FROM persona")
+                last_id = cur.fetchone()[0] 
+                new_id = last_id + 1
+                data["id_persona"]= new_id
+                cur.execute(query, (
+                    data["id_persona"], data["Nombre"], data["Segundo_nombre"], 
+                    data["Apellido1"], data["Apellido2"], data["Tipo_identificacion"],
+                    data["Numero_documento"], data["Direccion"], data["Celular"],
+                    data["Cargo"], data["Usuario"], data["Password"]
+                ))
                 id_persona = cur.fetchone()[0]
                 print(f"Persona creada exitosamente con Id_persona: {id_persona}")
                 return id_persona

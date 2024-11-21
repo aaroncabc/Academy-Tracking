@@ -23,7 +23,7 @@ export default function CrearHorarioPage() {
         if(!(session.user?.email?.trim() === "admin")){
           router.push('/denegado')
         }else{
-        router.push('/admin/cruds/persona'); // Redirige a "/aulas" si la sesión existe
+        router.push('/admin/cruds/horario'); // Redirige a "/aulas" si la sesión existe
         }
       }
     }, [session, status, router]);
@@ -85,7 +85,7 @@ export default function CrearHorarioPage() {
             Hora_f: formData.get("Hora_f")?.toString(),
             Dia_I: formData.get("Dia_I")?.toString(),
             Dia_text: formData.get("Dia_text")?.toString(),
-            Id_Aula: parseInt(formData.get("Id_Aula")?.toString() || "0"),
+            Id_Aula: parseInt(formData.get("Id_Salon")?.toString() || "0"),
         };
 
         const loadingAlert = Swal.fire({
@@ -118,7 +118,7 @@ export default function CrearHorarioPage() {
                     icon: "success",
                     confirmButtonText: "OK",
                 });
-                router.push("/admin/cruds/horarios");
+                router.push("/admin/cruds/horario");
             }
         } catch (error) {
             setError("Se produjo un error inesperado.");
@@ -197,7 +197,7 @@ export default function CrearHorarioPage() {
                                     <Select.Content>
                                         {aulas.map((aula) => (
                                             <Select.Item key={aula.id} value={aula.id.toString()}>
-                                                {aula.grupoT} ({aula.grupo}) - {aula.grado} - {aula.institucion}
+                                               {aula.grupoT} ({aula.grupo}) - {aula.grado} - {aula.institucion}
                                             </Select.Item>
                                         ))}
                                     </Select.Content>

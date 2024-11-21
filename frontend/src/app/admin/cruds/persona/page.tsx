@@ -77,7 +77,7 @@ export default function CrearPersonaPage() {
                     icon: 'success',
                     confirmButtonText: 'OK',
                 });
-                router.push("/admin/cruds/personas");
+                router.push("/admin/cruds/persona");
             }
         } catch (error) {
             setError('Se produjo un error inesperado.');

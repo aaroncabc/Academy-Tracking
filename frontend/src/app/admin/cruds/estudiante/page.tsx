@@ -86,7 +86,7 @@ export default function CrearEstudiantePage() {
                     icon: "success",
                     confirmButtonText: "OK",
                 });
-                router.push("/admin/cruds/estudiantes");
+                router.push("/admin/cruds/estudiante");
             }
         } catch (error) {
             setError("Se produjo un error inesperado.");

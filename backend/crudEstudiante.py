@@ -19,19 +19,34 @@ from config import get_connection
 );
 """
 
-# Crear un estudiante
 def create_estudiante(data):
     query = """
-    INSERT INTO Estudiantes (Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_Identificacion,
+    INSERT INTO Estudiantes (Id_Std, Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_Identificacion,
                              Numero_identificacion, Genero, Estrato, F_nacimiento, Id_Salon)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     RETURNING Id_Std;
     """
-    conn = get_connection()
+    conn = get_connection()  # Asegúrate de que esta función esté correctamente implementada
     try:
         with conn:
             with conn.cursor() as cur:
-                cur.execute(query, data)
+                # Obtener el último ID
+                cur.execute("SELECT COALESCE(MAX(Id_Std), 0) FROM Estudiantes")
+                last_id = cur.fetchone()[0]  # fetchone() devuelve una tupla
+                new_id = last_id + 1
+                
+                # Agregar el nuevo ID al diccionario
+                data["Id_Std"] = new_id
+                
+                # Ejecutar el query con parámetros
+                cur.execute(query, (
+                    data["Id_Std"], data["Nombre"], data["Segundo_nombre"], 
+                    data["Apellido1"], data["Apellido2"], data["Tipo_Identificacion"],
+                    data["Numero_identificacion"], data["Genero"], data["Estrato"], 
+                    data["F_nacimiento"], data["Id_Salon"]
+                ))
+                
+                # Obtener el ID retornado
                 id_std = cur.fetchone()[0]
                 print(f"Estudiante creado exitosamente con Id_Std: {id_std}")
                 return id_std

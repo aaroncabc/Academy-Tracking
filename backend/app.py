@@ -7,6 +7,8 @@ import getUser as gu
 import GetInstituciones as gi
 import crudPersona
 import crudInstitucion
+import crudEstudiante
+import crudHorario
 import crudAula
 import datetime
 import psycopg2
@@ -99,17 +101,7 @@ def post_persona():
 
     try:
         persona_id = crudPersona.create_persona(
-            Nombre = data["Nombre"],
-            Segundo_nombre = data.get("Segundo_nombre", None),
-            Apellido1 = data["Apellido1"],
-            Apellido2 = data["Apellido2"],
-            Tipo_identificacion = data["Tipo_identificacion"],
-            Numero_documento = data["Numero_documento"],
-            Direccion = data["Direccion"],
-            Celular = data["Celular"],
-            Cargo = "Tutor",
-            Usuario = data["Usuario"],
-            Password = data["Password"]
+            data
         )
         return jsonify({"message": "Persona creada exitosamente", "Id_Persona": persona_id}), 201
     except Exception as e:
@@ -147,18 +139,55 @@ def create_aula_endpoint():
 
     try:
         aula_id = crudAula.create_aula(
-            Grupo=data["Grupo"],
-            GrupoT=data.get("GrupoT", None),
-            Jornada=data["Jornada"],
-            Grado=int(data["Grado"]),
-            GradoT=data["GradoT"],
-            Id_persona=int(data["Id_persona"]),
-            Id_institucion=int(data["Id_institucion"]),
-            Año=int(data["Año"])
+            data
         )
         return jsonify({"message": "Aula creada exitosamente", "Id_Aula": aula_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+@app.route('/api/createEstudiante', methods=['POST'])
+def crear_estudiante():
+    try:
+        # Obtener los datos del cuerpo de la solicitud
+        data = request.get_json()
+        
+        # Validar que los datos necesarios estén presentes
+        required_fields = [
+            "Nombre", "Segundo_nombre", "Apellido1", "Apellido2", "Tipo_Identificacion",
+            "Numero_identificacion", "Genero", "Estrato", "F_nacimiento", "Id_Salon"
+        ]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"El campo {field} es obligatorio"}), 400
+        
+        # Crear el estudiante
+        id_std = crudEstudiante.create_estudiante(data)
+        return jsonify({"message": "Estudiante creado exitosamente", "Id_Std": id_std}), 201
+    except Exception as e:
+        return jsonify({"error": "Error al crear el estudiante", "details": str(e)}), 500
+
+
+@app.route('/api/createHorario', methods=['POST'])
+def crear_horario():
+    try:
+        # Obtener los datos del cuerpo de la solicitud
+        data = request.get_json()
+        
+        # Validar que los datos necesarios estén presentes
+        required_fields = [
+            "Hora_i", "Hora_f", "Dia_I", "Dia_text", "Id_Aula"
+        ]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"El campo {field} es obligatorio"}), 400
+        
+        # Crear el horario
+        id_h = crudHorario.create_horario(data)
+        return jsonify({"message": "Horario creado exitosamente", "Id_H": id_h}), 201
+    except Exception as e:
+        return jsonify({"error": "Error al crear el horario", "details": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

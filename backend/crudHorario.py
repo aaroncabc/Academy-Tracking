@@ -14,18 +14,32 @@ CREATE TABLE Horario
 );
 """
 
-# Crear un horario
 def create_horario(data):
     query = """
-    INSERT INTO Horario (Hora_i, Hora_f, Dia_I, Dia_text, Id_Bloque_electivo, Id_Aula)
+    INSERT INTO Horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Aula)
     VALUES (%s, %s, %s, %s, %s, %s)
     RETURNING Id_H;
     """
-    conn = get_connection()
+    conn = get_connection()  # Asegúrate de que esta función esté correctamente implementada
     try:
         with conn:
             with conn.cursor() as cur:
-                cur.execute(query, data)
+                # Obtener el último ID
+                cur.execute("SELECT COALESCE(MAX(Id_H), 0) FROM Horario")
+                last_id = cur.fetchone()[0]  # fetchone() devuelve una tupla
+                new_id = last_id + 1
+                
+                # Agregar el nuevo ID al diccionario
+                data["Id_H"] = new_id
+                
+                # Ejecutar el query con parámetros
+                cur.execute(query, (
+                    data["Id_H"], data["Hora_i"], data["Hora_f"], 
+                    data["Dia_I"], data["Dia_text"],
+                    data["Id_Aula"]
+                ))
+                
+                # Obtener el ID retornado
                 id_h = cur.fetchone()[0]
                 print(f"Horario creado exitosamente con Id_H: {id_h}")
                 return id_h
@@ -33,6 +47,7 @@ def create_horario(data):
         print("Error al crear el horario:", e)
     finally:
         conn.close()
+
 
 # Leer todos los horarios
 def read_all_horarios():

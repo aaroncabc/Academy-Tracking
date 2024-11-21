@@ -87,7 +87,7 @@ export default function CrearAulaPage() {
                     icon: 'success',
                     confirmButtonText: 'OK',
                 });
-                router.push("/admin/cruds/aulas");
+                router.push("/admin/cruds/aula");
             }
         } catch (error) {
             setError('Se produjo un error inesperado.');
