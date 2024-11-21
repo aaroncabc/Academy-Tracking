@@ -123,6 +123,15 @@ def get_all_aulas():
         return jsonify(aulas), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/getAulasHorario', methods=['GET'])
+def get_all_aulas_horario():
+    id_tutor = request.args.get('id_tutor')
+    try:
+        aulas = crudAula.read_all_aulas_horario_byTutor(id_tutor)
+        return jsonify(aulas), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
   
 @app.route('/api/createAula', methods=['POST'])  
 def create_aula_endpoint():
