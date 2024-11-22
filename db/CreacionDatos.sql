@@ -18,13 +18,13 @@ INSERT INTO institucion (Id_institucion, codigo,Nombre, Rector, Localidad, Barri
 
 
 -- Aulas en cada institución
-INSERT INTO aula (Id_Aula, Grupo, GrupoT, Jornada, Grado, GradoT, Id_persona, Id_institucion) VALUES
+INSERT INTO aula (Id_Aula, Grupo, GrupoT, Jornada, Grado, GradoT, Id_persona, Id_institucion,año) VALUES
 (1, 301, 'A', 'Mañana', 3, 'Tercero', 1, 1,2024),
 (2, 401, 'B', 'Tarde', 4, 'Cuarto', 2, 2,2024),
 (3, 501, 'A', 'Mañana', 5, 'Quinto', 1, 1,2023);
 
 -- Horarios de clases para cada bloque lectivo y aula
-INSERT INTO horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Bloque_electivo, Id_Aula) VALUES
+INSERT INTO horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Aula) VALUES
 (1, '08:00:00', '08:45:00', 'L', 'Lunes', 1),
 (2, '08:45:00', '09:30:00', 'L', 'Lunes', 2),
 (3, '09:00:00', '10:40:00', 'M', 'Martes', 3);  -- Bloque de dos horas para quinto grado
@@ -72,10 +72,10 @@ INSERT INTO asistencia (ID_Asis, Id_Std, Fecha, Asistio, Id_Aula) VALUES
 
 -- Notas para estudiantes en Aula 1 (Bloque lectivo 1)
 INSERT INTO notas (Id_Notas, Nota_1, Nota_2, Nota_3, Nota_4, Id_Estudiante, Id_Bloque_electivo) VALUES
-(1, 4.0, 3.5, 4.2, 4.8, 1, 1),  -- Ana Lopez
-(2, 3.0, 3.8, 3.7, 4.1, 2, 1),  -- Miguel Ramos
-(3, 4.5, 4.0, 3.9, 4.4, 3, 1),  -- Sofia Mora
-(4, 2.9, 3.1, 3.0, 3.5, 4, 1),  -- Daniel Montoya
+(1, 4.0, 3.5, 4.2, 4.8, 1),  -- Ana Lopez
+(2, 3.0, 3.8, 3.7, 4.1, 2),  -- Miguel Ramos
+(3, 4.5, 4.0, 3.9, 4.4, 3),  -- Sofia Mora
+(4, 2.9, 3.1, 3.0, 3.5, 4),  -- Daniel Montoya
 
 -- Notas para estudiantes en Aula 2 (Bloque lectivo 1)
 

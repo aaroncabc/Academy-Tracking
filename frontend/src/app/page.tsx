@@ -21,7 +21,11 @@ function Home() {
     if (!session) {
       router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
     } else {
-      router.push('/dashboard'); // Redirige a "/tutores" si la sesión existe
+      if(session.user?.email?.trim() === "admin"){
+        router.push('/admin/admin/aulas');
+      }else{
+        router.push('/tutor/Aulas'); // Redirige a "/tutores" si la sesión existe
+      }
     }
   }, [session, status, router]);
 

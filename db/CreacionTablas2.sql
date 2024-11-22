@@ -85,10 +85,8 @@ CREATE TABLE Notas
  Nota_3             float4 NOT NULL,
  Nota_4             float4 NOT NULL,
  Id_Estudiante      int NOT NULL,
- Id_Bloque_electivo int NOT NULL,
  CONSTRAINT PK_5 PRIMARY KEY ( Id_Notas ),
  CONSTRAINT FK_2 FOREIGN KEY ( Id_Estudiante ) REFERENCES Estudiantes ( Id_Std ),
- CONSTRAINT FK_10_1 FOREIGN KEY ( Id_Bloque_electivo ) REFERENCES Año_electivo ( Id_Bloque_electivo )
 );
 
 CREATE TABLE Horario
@@ -98,7 +96,6 @@ CREATE TABLE Horario
  Hora_f             time NOT NULL,
  Dia_I              char(1) NOT NULL,
  Dia_text           char(50) NOT NULL,
- Id_Bloque_electivo int NOT NULL,
  Id_Aula            int NOT NULL,
  CONSTRAINT PK_6 PRIMARY KEY ( Id_H ),
  CONSTRAINT FK_8 FOREIGN KEY ( Id_Aula ) REFERENCES Aula ( Id_Aula )

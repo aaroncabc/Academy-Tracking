@@ -191,7 +191,6 @@ export default function CrearAulaPage() {
                                     ))}
                                 </Select.Content>
                             </Select.Root>
-
                             <TextField.Root type="number" name="Año" placeholder="Año (Ej: 2024)" size="3" required />
                             {error && <p className="text-red-500">{error}</p>}
                             <Button variant="soft" type="submit" className="font-semibold">
