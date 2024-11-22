@@ -50,6 +50,10 @@ const data = {
         {
           title: "Aulas",
           url: "/admin/aulas",
+        },
+        {
+          title: "Horario",
+          url: "/tutor/horario"
         }
       ],
     },

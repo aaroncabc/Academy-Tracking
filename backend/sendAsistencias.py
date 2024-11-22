@@ -28,10 +28,8 @@ asistenciatutor_table = Table(
     Column('asistio', Boolean, nullable=False),
     Column('id_aula', Integer, ForeignKey('aula.id_aula'), nullable=False)
 )
-
-# Función para insertar datos en Asistencia
+# Función para insertar datos en Asistencia (Alumnos)
 def insertar_asistencia_Alumno(id_std: int, fecha: date, asistio: bool, id_aula: int):
-    # Crear una sesión
     Session = sessionmaker(bind=engine)
     session = Session()
     nuevo_registro = {
@@ -40,26 +38,23 @@ def insertar_asistencia_Alumno(id_std: int, fecha: date, asistio: bool, id_aula:
         'asistio': asistio,
         'id_aula': id_aula
     }
-    
     try:
         last_id_result = session.execute(text("SELECT COALESCE(MAX(id_asis), 0) FROM asistencia"))
-        last_id = last_id_result.scalar()  
+        last_id = last_id_result.scalar()
         new_id = last_id + 1
         nuevo_registro["id_asis"] = new_id
-        # Insertar el nuevo registro
         insert_stmt = asistencia_table.insert().values(nuevo_registro)
         session.execute(insert_stmt)
         session.commit()
         print("Registro insertado exitosamente en la tabla Asistencia.")
     except Exception as e:
         session.rollback()
-        print(f"Error al insertar el registro: {e}")
+        print(f"Error al insertar el registro de asistencia del alumno: {e}")
     finally:
         session.close()
-        return
 
+# Función para insertar datos en AsistenciaTutor
 def insertar_asistencia_Tutor(fecha: date, asistio: bool, id_aula: int):
-    # Crear una sesión
     Session = sessionmaker(bind=engine)
     session = Session()
     nuevo_registro = {
@@ -67,59 +62,46 @@ def insertar_asistencia_Tutor(fecha: date, asistio: bool, id_aula: int):
         'asistio': asistio,
         'id_aula': id_aula
     }
-    
     try:
         last_id_result = session.execute(text("SELECT COALESCE(MAX(id_at), 0) FROM asistenciatutor"))
-        last_id = last_id_result.scalar()  
+        last_id = last_id_result.scalar()
         new_id = last_id + 1
-        nuevo_registro["id_asis"] = new_id
-        # Insertar el nuevo registro
+        nuevo_registro["id_at"] = new_id  # Corregido el campo de la tabla
         insert_stmt = asistenciatutor_table.insert().values(nuevo_registro)
         session.execute(insert_stmt)
         session.commit()
-        print("Registro insertado exitosamente en la tabla Asistencia.")
+        print("Registro insertado exitosamente en la tabla AsistenciaTutor.")
     except Exception as e:
         session.rollback()
-        print(f"Error al insertar el registro: {e}")
+        print(f"Error al insertar el registro de asistencia del tutor: {e}")
     finally:
         session.close()
-        return
-
 
 # Función para insertar asistencia de un aula
-def insert_asistencia_Aula(id_aula: int,asistencias: list,date,atutor):
+def insert_asistencia_Aula(id_aula: int, asistencias: list, fecha: date):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
-        fecha_actual = datetime.now()
-        fecha_actual = fecha_actual.strftime("%Y-%m-%d")
-        query =text("SELECT * FROM asistencia WHERE fecha = :fecha_actual AND id_aula = :id_aula")
-        tomado = session.execute(query,{"fecha_actual":fecha_actual,"id_aula":id_aula})
-        if(tomado):
-            return
-        insertar_asistencia_Tutor(date,True,id_aula)
+        query = text("SELECT * FROM asistencia WHERE fecha = :fecha AND id_aula = :id_aula")
+        resultado = session.execute(query, {"fecha": fecha, "id_aula": id_aula}).fetchone()
+        if resultado:
+            print("La asistencia ya fue tomada para esta fecha y aula.")
+            return {"message": "Asistencia ya tomada"}
+
+        # Insertar asistencia del tutor
+        insertar_asistencia_Tutor(fecha, True, id_aula)
+
+        # Insertar asistencia de alumnos
         for asistencia in asistencias:
-            nuevo_registro = {
-                'id_std': asistencia['nombre'],
-                'fecha': date,
-                'asistio': asistencia['asistencia'],
-                'id_aula': id_aula
-            }
-            if(nuevo_registro["asistio"] == "true"):
-                nuevo_registro["asistio"]= True
-            else:
-                nuevo_registro["asistio"]=False
-            last_id_result = session.execute(text("SELECT COALESCE(MAX(id_asis), 0) FROM asistencia"))
-            last_id = last_id_result.scalar()  
-            new_id = last_id + 1
-            nuevo_registro["id_asis"] = new_id
-            insertar_asistencia_Alumno(nuevo_registro['id_std'], date, nuevo_registro['asistio'], id_aula)
+            asistio = asistencia.get('asistencia', False) in [True, "true", 1]
+            id_std = asistencia.get('id_std')
+            insertar_asistencia_Alumno(id_std, fecha, asistio, id_aula)
+
         session.commit()
-        print("Registros insertados exitosamente en la tabla Asistencia.")
+        print("Asistencias insertadas exitosamente.")
     except Exception as e:
         session.rollback()
-        print(f"Error al insertar el registro: {e}")
+        print(f"Error al insertar asistencias del aula: {e}")
     finally:
         session.close()
-        return "Asistencia tomada exitosamente"
-
+    return {"message": "Asistencias tomadas exitosamente"}

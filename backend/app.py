@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import getAsistencias as ga
-import sendAsistencias as sa
+import sendAsistencias
 import getAulas as gau
 import getUser as gu
 import GetInstituciones as gi
@@ -67,14 +67,22 @@ def get_lista_alumnos():
 @app.route('/api/tomarAsistencia', methods=['POST'])
 def post_asistencias():
     data = request.json
+
+    # Validar datos de entrada
     aula = data.get('aula')
     asistencias = data.get('asistencias')
     fecha = data.get('fecha')
-    tutor = data.get('tutor')
-    atutor = data.get('atutor')
-    sa.insertar_asistencia_Tutor(tutor,atutor)
-    sa.insert_asistencia_Aula(aula,asistencias,fecha)
-    return
+
+    if not aula or not asistencias or not fecha:
+        return jsonify({"error": "Datos incompletos"}), 400
+
+    try:
+        response = sendAsistencias.insert_asistencia_Aula(aula, asistencias, fecha)
+        return jsonify(response), 201
+    except Exception as e:
+        print(f"Error en el endpoint: {e}")
+        return jsonify({"error": "Error interno del servidor"}), 500
+
 
 @app.route('/api/escuelas', methods=['GET'])
 def get_escuelas():
