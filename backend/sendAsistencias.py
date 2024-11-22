@@ -87,8 +87,10 @@ def insert_asistencia_Aula(id_aula: int, asistencias: list, fecha: date, asistio
     session = Session()
     try:
         query = text("SELECT * FROM asistencia WHERE fecha = :fecha AND id_aula = :id_aula")
+        query2 = text("SELECT * FROM asistenciatutor WHERE fecha = :fecha AND id_aula = :id_aula")
         resultado = session.execute(query, {"fecha": fecha, "id_aula": id_aula}).fetchone()
-        if resultado:
+        resultado2 = session.execute(query2, {"fecha": fecha, "id_aula": id_aula}).fetchone()
+        if resultado or resultado2:
             raise ValueError("La asistencia ya fue tomada para esta fecha y aula")
 
         # Insertar asistencia del tutor
