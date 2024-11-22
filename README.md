@@ -1,7 +1,9 @@
 # POR HACER EN ESTE BRANCH
 ## importante
-1. vista de actializacion para persona
-2. vista de actualizacion para estudiantes
+
+1. vista de actializacion para persona (opcional)
+2. vista de actualizacion para estudiantes (opcional)
+
 ## en progreso
 - vista de toma de notas
 
