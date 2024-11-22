@@ -1,5 +1,5 @@
 import datetime
-from sqlalchemy import create_engine, Table, MetaData, Column, Integer, Date, Boolean, ForeignKey,text
+from sqlalchemy import create_engine, Table, MetaData, Column, Integer, Date, Boolean, ForeignKey,text,String
 from sqlalchemy.orm import sessionmaker
 from datetime import date,datetime
 import config
@@ -26,7 +26,8 @@ asistenciatutor_table = Table(
     Column('id_at', Integer, primary_key=True),
     Column('fecha', Date, nullable=False),
     Column('asistio', Boolean, nullable=False),
-    Column('id_aula', Integer, ForeignKey('aula.id_aula'), nullable=False)
+    Column('id_aula', Integer, ForeignKey('aula.id_aula'), nullable=False),
+    Column('motivo', String,nullable=True)
 )
 # Función para insertar datos en Asistencia (Alumnos)
 def insertar_asistencia_Alumno(id_std: int, fecha: date, asistio: bool, id_aula: int):
@@ -54,13 +55,15 @@ def insertar_asistencia_Alumno(id_std: int, fecha: date, asistio: bool, id_aula:
         session.close()
 
 # Función para insertar datos en AsistenciaTutor
-def insertar_asistencia_Tutor(fecha: date, asistio: bool, id_aula: int):
+def insertar_asistencia_Tutor(fecha: date, asistio: bool, id_aula: int,motivo: str):
     Session = sessionmaker(bind=engine)
     session = Session()
     nuevo_registro = {
         'fecha': fecha,
         'asistio': asistio,
-        'id_aula': id_aula
+        'id_aula': id_aula,
+        'motivo': motivo
+        
     }
     try:
         last_id_result = session.execute(text("SELECT COALESCE(MAX(id_at), 0) FROM asistenciatutor"))
@@ -68,6 +71,7 @@ def insertar_asistencia_Tutor(fecha: date, asistio: bool, id_aula: int):
         new_id = last_id + 1
         nuevo_registro["id_at"] = new_id  # Corregido el campo de la tabla
         insert_stmt = asistenciatutor_table.insert().values(nuevo_registro)
+        print(nuevo_registro)
         session.execute(insert_stmt)
         session.commit()
         print("Registro insertado exitosamente en la tabla AsistenciaTutor.")
@@ -78,18 +82,17 @@ def insertar_asistencia_Tutor(fecha: date, asistio: bool, id_aula: int):
         session.close()
 
 # Función para insertar asistencia de un aula
-def insert_asistencia_Aula(id_aula: int, asistencias: list, fecha: date):
+def insert_asistencia_Aula(id_aula: int, asistencias: list, fecha: date, asistio_tutor: bool,motivo: str):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
         query = text("SELECT * FROM asistencia WHERE fecha = :fecha AND id_aula = :id_aula")
         resultado = session.execute(query, {"fecha": fecha, "id_aula": id_aula}).fetchone()
         if resultado:
-            print("La asistencia ya fue tomada para esta fecha y aula.")
-            return {"message": "Asistencia ya tomada"}
+            raise ValueError("La asistencia ya fue tomada para esta fecha y aula")
 
         # Insertar asistencia del tutor
-        insertar_asistencia_Tutor(fecha, True, id_aula)
+        insertar_asistencia_Tutor(fecha, asistio_tutor, id_aula,motivo)
 
         # Insertar asistencia de alumnos
         for asistencia in asistencias:
@@ -101,7 +104,7 @@ def insert_asistencia_Aula(id_aula: int, asistencias: list, fecha: date):
         print("Asistencias insertadas exitosamente.")
     except Exception as e:
         session.rollback()
-        print(f"Error al insertar asistencias del aula: {e}")
+        raise e
     finally:
         session.close()
     return {"message": "Asistencias tomadas exitosamente"}

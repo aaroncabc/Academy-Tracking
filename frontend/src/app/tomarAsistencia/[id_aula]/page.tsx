@@ -1,15 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from "next/navigation";
-import { Flex, Text, Button, Card, Checkbox, Heading } from "@radix-ui/themes";
+import { Flex, Text, Button, Card, Checkbox, Heading, TextField } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 
 export default function AulaPage() {
   return (
-    <>
-      <Aula />
-    </>
+    <Aula />
   );
 }
 
@@ -30,6 +28,8 @@ function Aula() {
   const [data, setData] = useState<EstudianteData[]>([]);
   const [esTutor, setEsTutor] = useState<boolean>(false);
   const [asistencias, setAsistencias] = useState<{ [id: string]: boolean }>({});
+  const [atutor, setAtutor] = useState<boolean>(true);
+  const [motivo, setMotivo] = useState<string>('');
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -52,7 +52,15 @@ function Aula() {
     if (aula) {
       fetch(`http://localhost:5000/api/listaAlumnos?aula=${aula}`)
         .then(response => response.json())
-        .then(data => setData(data));
+        .then(data => {
+          setData(data);
+          // Inicializar el estado de asistencias con "false" para cada estudiante
+          const initialAsistencias = data.reduce((acc: { [id: string]: boolean }, student: EstudianteData) => {
+            acc[student.id_std] = false;
+            return acc;
+          }, {});
+          setAsistencias(initialAsistencias);
+        });
     }
   }, [aula]);
 
@@ -60,8 +68,20 @@ function Aula() {
     setAsistencias((prev) => ({ ...prev, [id]: checked }));
   };
 
+  const handleAtutorChange = (checked: boolean) => {
+    setAtutor(checked);
+    if (checked) {
+      setMotivo('');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!atutor && !motivo.trim()) {
+      Swal.fire('Error', 'Debe proporcionar un motivo si el tutor no asistió.', 'error');
+      return;
+    }
 
     const fechaActual = new Date().toISOString().split('T')[0];
     const asistenciasArray = Object.keys(asistencias).map(id => ({
@@ -74,7 +94,8 @@ function Aula() {
       asistencias: asistenciasArray,
       fecha: fechaActual,
       tutor: session?.user?.name?.split(' ')[0],
-      atutor: true,
+      atutor: atutor,
+      motivo: !atutor ? motivo : null,
     };
 
     try {
@@ -89,7 +110,8 @@ function Aula() {
       if (response.ok) {
         Swal.fire('Éxito', 'Asistencia registrada correctamente', 'success');
       } else {
-        Swal.fire('Error', 'No se pudo registrar la asistencia', 'error');
+        const errorData = await response.json();
+        Swal.fire('Error', errorData.details, 'error');
       }
     } catch (error) {
       Swal.fire('Error', 'Ocurrió un problema con la solicitud', 'error');
@@ -102,6 +124,26 @@ function Aula() {
         <Heading>Toma de Asistencia</Heading>
         <form onSubmit={handleSubmit} className="w-full">
           <Flex direction="column" gap="4">
+            {session?.user?.email?.trim() === "admin" && (
+              <Flex direction="column" gap="4" className="mt-4">
+                <Flex gap={"3"} align={"center"}>
+                  ¿El tutor asistió?
+                  <Checkbox
+                    id="atutor-checkbox"
+                    checked={atutor}
+                    onCheckedChange={handleAtutorChange}
+                  />
+                </Flex>
+                {!atutor && (
+                  <TextField.Root
+                    placeholder="Motivo de inasistencia del tutor"
+                    value={motivo}
+                    onChange={(e) => setMotivo(e.target.value)}
+                    required
+                  />
+                )}
+              </Flex>
+            )}
             {data.length > 0 ? (
               data.map((item) => (
                 <Card key={item.id_std} variant="ghost" className="flex items-center justify-between">

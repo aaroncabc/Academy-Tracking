@@ -22,7 +22,7 @@ function Home() {
       router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
     } else {
       if(session.user?.email?.trim() === "admin"){
-        router.push('/admin/admin/aulas');
+        router.push('/admin/aulas');
       }else{
         router.push('/tutor/Aulas'); // Redirige a "/tutores" si la sesión existe
       }

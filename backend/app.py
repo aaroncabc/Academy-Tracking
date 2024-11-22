@@ -150,16 +150,16 @@ def post_asistencias():
     aula = data.get('aula')
     asistencias = data.get('asistencias')
     fecha = data.get('fecha')
-
+    atutor = data.get('atutor')
+    motivo = data.get('motivo')
     if not aula or not asistencias or not fecha:
         return jsonify({"error": "Datos incompletos"}), 400
 
     try:
-        response = sendAsistencias.insert_asistencia_Aula(aula, asistencias, fecha)
+        response = sendAsistencias.insert_asistencia_Aula(aula, asistencias, fecha, atutor, motivo)
         return jsonify(response), 201
     except Exception as e:
-        print(f"Error en el endpoint: {e}")
-        return jsonify({"error": "Error interno del servidor"}), 500
+        return jsonify({"details": str(e)}), 400
 
 
 @app.route('/api/escuelas', methods=['GET'])
