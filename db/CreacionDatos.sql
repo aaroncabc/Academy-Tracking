@@ -1,3 +1,4 @@
+--Script de Creacion de datos para la base de datos
 -- Bloque académico lectivo para el año 2024
 INSERT INTO anio_electivo (Id_Bloque_electivo, Fecha_inicio, Fecha_fin) VALUES
 (1, '2024-02-05', '2024-04-05'),
@@ -44,7 +45,66 @@ INSERT INTO aula (Id_Aula, Grupo, GrupoT, Jornada, Grado, GradoT, Id_persona, Id
 INSERT INTO horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Aula) VALUES
 (1, '08:00:00', '08:45:00', 'L', 'Lunes', 1),
 (2, '08:45:00', '09:30:00', 'L', 'Lunes', 2),
-(3, '09:00:00', '10:40:00', 'M', 'Martes', 3);  -- Bloque de dos horas para quinto grado
+(3, '09:00:00', '10:40:00', 'M', 'Martes', 3), -- Bloque de dos horas para quinto grado
+
+-- Aula 5
+(9, '08:00:00', '08:45:00', 'L', 'Lunes', 5),
+(10, '08:45:00', '09:30:00', 'M', 'Martes', 5),
+
+-- Aula 6
+(11, '09:00:00', '09:45:00', 'M', 'Martes', 6),
+(12, '09:45:00', '10:30:00', 'J', 'Jueves', 6),
+
+-- Aula 7
+(13, '10:00:00', '11:00:00', 'L', 'Lunes', 7),
+
+-- Aula 8
+(14, '11:00:00', '12:00:00', 'V', 'Viernes', 8),
+
+-- Aula 9
+(15, '14:00:00', '14:45:00', 'M', 'Martes', 9),
+(16, '14:45:00', '15:30:00', 'J', 'Jueves', 9),
+
+-- Aula 10
+(17, '08:00:00', '09:00:00', 'L', 'Lunes', 10),
+
+-- Aula 11
+(18, '10:30:00', '11:15:00', 'X', 'Miércoles', 11),
+(19, '11:15:00', '12:00:00', 'V', 'Viernes', 11),
+
+-- Aula 12
+(20, '09:00:00', '10:00:00', 'M', 'Martes', 12),
+
+-- Aula 13
+(21, '14:00:00', '14:45:00', 'X', 'Miércoles', 13),
+(22, '14:45:00', '15:30:00', 'J', 'Jueves', 13),
+
+-- Aula 14
+(23, '08:30:00', '09:15:00', 'M', 'Martes', 14),
+(24, '09:15:00', '10:00:00', 'J', 'Jueves', 14),
+
+-- Aula 15
+(25, '10:00:00', '11:00:00', 'V', 'Viernes', 15),
+
+-- Aula 16
+(26, '08:00:00', '08:45:00', 'L', 'Lunes', 16),
+(27, '08:45:00', '09:30:00', 'X', 'Miércoles', 16),
+
+-- Aula 17
+(28, '11:00:00', '11:45:00', 'J', 'Jueves', 17),
+(29, '11:45:00', '12:30:00', 'V', 'Viernes', 17),
+
+-- Aula 18
+(30, '14:00:00', '15:00:00', 'X', 'Miércoles', 18),
+
+-- Aula 19
+(31, '15:30:00', '16:30:00', 'L', 'Lunes', 19),
+
+-- Aula 20
+(32, '13:30:00', '14:15:00', 'M', 'Martes', 20),
+(33, '14:15:00', '15:00:00', 'V', 'Viernes', 20);
+
+------------------------------------------------------------
 
 -- Estudiantes en Aula 1 (Tercero)
 INSERT INTO estudiantes (Id_Std, Nombre, Segundo_nombre, Apellido1, Apellido2, Tipo_Identicficacion, Numero_identificacion, Genero, Estrato, F_nacimiento, Id_Salon) VALUES
