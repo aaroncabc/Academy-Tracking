@@ -14,7 +14,6 @@ CREATE TABLE Horario
 );
 """
 from datetime import datetime
-
 def create_horario(data):
     query = """
     INSERT INTO Horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Aula)
@@ -25,13 +24,46 @@ def create_horario(data):
     try:
         with conn:
             with conn.cursor() as cur:
-                # Validar la cantidad de horarios existentes para el aula
-                cur.execute("SELECT COUNT(*) FROM Horario WHERE Id_Aula = %s", (data["Id_Aula"],))
-                count = cur.fetchone()[0]  # Obtenemos el número de horarios existentes
+                # Obtener el grado del aula
+                cur.execute("SELECT Grado FROM Aula WHERE Id_Aula = %s", (data["Id_Aula"],))
+                grado = cur.fetchone()
+                
+                if not grado:
+                    raise ValueError("El aula especificada no existe.")
+                
+                grado = grado[0]  # Extraer el valor del grado
 
-                if count >= 2:
-                    # Si ya hay 2 horarios para esta aula, devolver un error
-                    raise ValueError("Este aula ya tiene 2 horarios asignados.")
+                # Validar la cantidad de horarios existentes para el aula
+                cur.execute("""
+                    SELECT Hora_i, Hora_f 
+                    FROM Horario 
+                    WHERE Id_Aula = %s
+                """, (data["Id_Aula"],))
+                horarios_existentes = cur.fetchall()
+
+                # Calcular la duración total actual en minutos
+                duracion_total_existente = sum(
+                    (hora_f - hora_i).total_seconds() / 60 
+                    for hora_i, hora_f in horarios_existentes
+                )
+
+                # Calcular la duración del nuevo horario
+                hora_i = data["Hora_i"]
+                hora_f = data["Hora_f"]
+                nueva_duracion = (hora_f - hora_i).total_seconds() / 60
+
+                # Sumar la duración existente con la del nuevo horario
+                duracion_total = duracion_total_existente + nueva_duracion
+
+                # Validar límites según el grado
+                if grado in range(0, 5):  # Grados de 0 a 4
+                    if len(horarios_existentes) >= 1:
+                        raise ValueError("Los cursos de grado 0 a 4 solo pueden tener un horario.")
+                    if duracion_total > 60:
+                        raise ValueError("La duración total del horario para grados 0 a 4 no puede superar los 60 minutos.")
+                elif grado == 5:  # Grado 5
+                    if duracion_total > 120:
+                        raise ValueError("La duración total del horario para grado 5 no puede superar los 120 minutos.")
 
                 # Obtener el último ID
                 cur.execute("SELECT COALESCE(MAX(Id_H), 0) FROM Horario")

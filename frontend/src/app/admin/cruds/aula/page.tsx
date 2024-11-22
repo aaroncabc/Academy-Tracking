@@ -141,6 +141,9 @@ export default function CrearAulaPage() {
                             <Select.Root name="Grado" required onValueChange={setGrado}>
                                 <Select.Trigger placeholder="Seleccionar Grado" />
                                 <Select.Content>
+                                    <Select.Item value="0">0</Select.Item>
+                                    <Select.Item value="1">1</Select.Item>
+                                    <Select.Item value="2">2</Select.Item>
                                     <Select.Item value="3">3</Select.Item>
                                     <Select.Item value="4">4</Select.Item>
                                     <Select.Item value="5">5</Select.Item>
@@ -152,6 +155,12 @@ export default function CrearAulaPage() {
                                 type="text"
                                 name="GradoT"
                                 value={
+                                    grado ==="0"? "Transición":
+                                    grado === "1"
+                                        ? "Primero"
+                                        : grado === "2"
+                                        ? "Segundo"
+                                        :
                                     grado === "3"
                                         ? "Tercero"
                                         : grado === "4"
