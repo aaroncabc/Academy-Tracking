@@ -6,13 +6,14 @@
 
 ## COSAS QUE YA SE HACEN EN ESTE BRANCH
 
+- Cambio del menu de navegacion segun rol del usuario
 - visualizar las aulas (asignadas en el año actual para el tutor, todas las existentes del año actual para el admin)
 - visualizar y editar notas de un aula
 - crear aula
 - crear estudiante
 - crear horario (validando que el aula no tenga mas de 2 horarios diferentes y la semana y menos de 120 min totales de clase)
 - ver el horario semanal (de las aulas asignadas para los tutores, de todas las aulas existentes para el admin)
-- Tomar asistencia para el dia de un aula (valida que no se haya tomado asistencia para ese dia previamente, el admin puede gestionar el estado de asistencia del tutor para ese dia, si entrea el tutor automaticamente se asigna como asistido al enviar la asistencia)
+- Tomar asistencia para el dia de un aula (valida que no se haya tomado asistencia para ese dia previamente, el admin puede gestionar el estado de asistencia del tutor para ese dia, si entra el tutor automaticamente se asigna como asistido al enviar la asistencia)
 
 # Academy-Tracking
 # Proyecto Final - IST7111 Bases de Datos

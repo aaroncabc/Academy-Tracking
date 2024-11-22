@@ -24,7 +24,7 @@ function Home() {
       if(session.user?.email?.trim() === "admin"){
         router.push('/admin/aulas');
       }else{
-        router.push('/tutor/Aulas'); // Redirige a "/tutores" si la sesión existe
+        router.push('/tutor/aulas'); // Redirige a "/tutores" si la sesión existe
       }
     }
   }, [session, status, router]);
