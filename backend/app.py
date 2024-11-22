@@ -12,6 +12,7 @@ import crudHorario
 import crudAula
 import datetime
 import psycopg2
+
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
 
