@@ -21,7 +21,24 @@ INSERT INTO institucion (Id_institucion, codigo,Nombre, Rector, Localidad, Barri
 INSERT INTO aula (Id_Aula, Grupo, GrupoT, Jornada, Grado, GradoT, Id_persona, Id_institucion,año) VALUES
 (1, 301, 'A', 'Mañana', 3, 'Tercero', 1, 1,2024),
 (2, 401, 'B', 'Tarde', 4, 'Cuarto', 2, 2,2024),
-(3, 501, 'A', 'Mañana', 5, 'Quinto', 1, 1,2023);
+(3, 501, 'A', 'Mañana', 5, 'Quinto', 1, 1,2023),
+(4, 402, 'B', 'Tarde', 4, 'Cuarto', 2, 1, 2024),
+(5, 501, 'A', 'Mañana', 5, 'Quinto', 3, 2, 2024),
+(6, 502, 'B', 'Tarde', 5, 'Quinto', 3, 2, 2024),
+(7, 601, 'A', 'Mañana', 6, 'Sexto', 1, 1, 2024),
+(8, 602, 'B', 'Tarde', 6, 'Sexto', 1, 1, 2024),
+(9, 701, 'A', 'Mañana', 7, 'Séptimo', 2, 2, 2024),
+(10, 702, 'B', 'Tarde', 7, 'Séptimo', 2, 2, 2024),
+(11, 801, 'A', 'Mañana', 8, 'Octavo', 3, 1, 2024),
+(12, 802, 'B', 'Tarde', 8, 'Octavo', 3, 1, 2024),
+(13, 901, 'A', 'Mañana', 9, 'Noveno', 1, 2, 2024),
+(14, 902, 'B', 'Tarde', 9, 'Noveno', 1, 2, 2024),
+(15, 1001, 'A', 'Mañana', 10, 'Décimo', 2, 2, 2024),
+(16, 1002, 'B', 'Tarde', 10, 'Décimo', 2, 2, 2024),
+(17, 1101, 'A', 'Mañana', 11, 'Once', 3, 1, 2024),
+(18, 1102, 'B', 'Tarde', 11, 'Once', 3, 1, 2024),
+(19, 201, 'A', 'Mañana', 2, 'Segundo', 1, 2, 2024),
+(20, 202, 'B', 'Tarde', 2, 'Segundo', 1, 2, 2024);
 
 -- Horarios de clases para cada bloque lectivo y aula
 INSERT INTO horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Aula) VALUES
@@ -48,13 +65,60 @@ INSERT INTO estudiantes (Id_Std, Nombre, Segundo_nombre, Apellido1, Apellido2, T
 (9, 'Jorge', 'Alberto', 'Martínez', 'Hernández', 'TI', '231231231', 'Masculino', 4, '2011-10-20', 3),
 (10, 'Paula', 'Andrea', 'Castaño', 'Gomez', 'TI', '123987456', 'Femenino', 3, '2011-03-25', 3),
 (11, 'Camilo', 'Andrés', 'Moreno', 'Rivera', 'TI', '345678901', 'Masculino', 5, '2011-06-14', 3),
-(12, 'Sara', 'Juliana', 'Vega', 'Ortega', 'TI', '789123456', 'Femenino', 2, '2011-09-30', 3);
+(12, 'Sara', 'Juliana', 'Vega', 'Ortega', 'TI', '789123456', 'Femenino', 2, '2011-09-30', 3),
+(13, 'Carlos', 'Andres', 'Mejia', 'Lopez', 'TI', '111222333', 'Masculino', 4, '2013-01-01', 6),
+(14, 'Luisa', 'Fernanda', 'Garcia', 'Castillo', 'TI', '444555666', 'Femenino', 3, '2013-02-15', 6),
+(15, 'Andres', 'David', 'Perez', 'Romero', 'TI', '777888999', 'Masculino', 2, '2013-03-20', 6),
+(16, 'Claudia', 'Patricia', 'Rojas', 'Diaz', 'TI', '333444555', 'Femenino', 1, '2013-05-10', 6),
+(17, 'Juan', 'Sebastian', 'Cruz', 'Gomez', 'TI', '666777888', 'Masculino', 2, '2013-06-15', 6),
+
+-- Aula 7
+(18, 'Diana', 'Marcela', 'Hernandez', 'Torres', 'TI', '888999000', 'Femenino', 4, '2013-07-01', 7),
+(19, 'Pedro', 'Julian', 'Martinez', 'Gonzalez', 'TI', '123456789', 'Masculino', 3, '2013-08-01', 7),
+(20, 'Valeria', 'Sofia', 'Lopez', 'Castro', 'TI', '987654321', 'Femenino', 2, '2013-09-15', 7),
+(21, 'Diego', 'Fernando', 'Ramos', 'Ramirez', 'TI', '456789123', 'Masculino', 1, '2013-10-20', 7),
+(22, 'Camila', 'Andrea', 'Cruz', 'Mora', 'TI', '654321987', 'Femenino', 2, '2013-11-30', 7),
+
+-- Repite para las aulas 8 a 20 (5 estudiantes por aula).
+(23, 'Julian', 'Andres', 'Mora', 'Lopez', 'TI', '991122334', 'Masculino', 3, '2013-01-15', 8),
+(24, 'Santiago', 'Alberto', 'Perez', 'Gomez', 'TI', '112233445', 'Masculino', 2, '2013-02-10', 8),
+(25, 'Isabela', 'Maria', 'Diaz', 'Cruz', 'TI', '223344556', 'Femenino', 3, '2013-03-25', 8),
+(26, 'Gabriela', 'Sofia', 'Torres', 'Rojas', 'TI', '334455667', 'Femenino', 1, '2013-04-18', 8),
+(27, 'Esteban', 'David', 'Rojas', 'Hernandez', 'TI', '445566778', 'Masculino', 2, '2013-05-22', 8),
+
+-- Aula 9
+(28, 'Laura', 'Camila', 'Gonzalez', 'Torres', 'TI', '556677889', 'Femenino', 2, '2013-06-12', 9),
+(29, 'Jorge', 'Luis', 'Martinez', 'Vargas', 'TI', '667788990', 'Masculino', 1, '2013-07-04', 9),
+(30, 'Andrea', 'Paola', 'Diaz', 'Rivera', 'TI', '778899001', 'Femenino', 3, '2013-08-16', 9),
+(31, 'Victor', 'Hugo', 'Lopez', 'Ramirez', 'TI', '889900112', 'Masculino', 2, '2013-09-08', 9),
+(32, 'Daniela', 'Sofia', 'Rodriguez', 'Garcia', 'TI', '990011223', 'Femenino', 4, '2013-10-30', 9),
+
+-- Aula 10
+(33, 'Samuel', 'David', 'Cruz', 'Hernandez', 'TI', '101122334', 'Masculino', 3, '2013-01-20', 10),
+(34, 'Nicolas', 'Andres', 'Gomez', 'Diaz', 'TI', '112233446', 'Masculino', 2, '2013-03-25', 10),
+(35, 'Lucia', 'Fernanda', 'Torres', 'Mora', 'TI', '223344557', 'Femenino', 4, '2013-05-14', 10),
+(36, 'Cristian', 'Felipe', 'Perez', 'Ramirez', 'TI', '334455668', 'Masculino', 1, '2013-07-09', 10),
+(37, 'Elena', 'Victoria', 'Moreno', 'Rojas', 'TI', '445566779', 'Femenino', 3, '2013-09-23', 10),
+
+-- Aula 11
+(38, 'Diego', 'Emmanuel', 'Garcia', 'Castillo', 'TI', '556677891', 'Masculino', 3, '2013-02-11', 11),
+(39, 'Valentina', 'Sofia', 'Lopez', 'Gomez', 'TI', '667788902', 'Femenino', 4, '2013-04-17', 11),
+(40, 'Adriana', 'Paula', 'Martinez', 'Diaz', 'TI', '778899013', 'Femenino', 2, '2013-06-03', 11),
+(41, 'Sebastian', 'Gabriel', 'Ramirez', 'Rojas', 'TI', '889900124', 'Masculino', 1, '2013-07-18', 11),
+(42, 'Angela', 'Maria', 'Vega', 'Rivera', 'TI', '990011235', 'Femenino', 3, '2013-08-24', 11),
+
+-- Aula 12
+(43, 'Eduardo', 'Luis', 'Diaz', 'Hernandez', 'TI', '101122346', 'Masculino', 2, '2013-09-10', 12),
+(44, 'Sara', 'Isabel', 'Cruz', 'Garcia', 'TI', '112233458', 'Femenino', 3, '2013-10-22', 12),
+(45, 'Jose', 'Alejandro', 'Perez', 'Mora', 'TI', '223344569', 'Masculino', 4, '2013-11-13', 12),
+(46, 'Clara', 'Gabriela', 'Rojas', 'Torres', 'TI', '334455671', 'Femenino', 2, '2013-12-04', 12),
+(47, 'Martin', 'Andres', 'Gomez', 'Diaz', 'TI', '445566782', 'Masculino', 1, '2013-01-30', 12);
 
 -- Ejemplo de registros en AsistenciaTutor (si Asistio = TRUE, se toma asistencia de los estudiantes)
 INSERT INTO asistenciaTutor (ID_AT, Asistio, Motivo, Id_Aula, Fecha) VALUES
 (1, TRUE, NULL, 1, '2024-10-01'),  -- Clase regular para Aula 1, se tomará asistencia
 (2, FALSE, 'Enfermedad del tutor', 2, '2024-10-01'),  -- Clase cancelada en Aula 2
-(3, TRUE, NULL, 3, '2024-10-01');  -- Clase regular para Aula 3
+(3, TRUE, NULL, 3, '2024-10-01'); -- Clase regular para Aula 3
 
 -- Asistencia de los estudiantes en Aula 1 para el 2024-10-01 (AsistenciaTutor ID 1)
 INSERT INTO asistencia (ID_Asis, Id_Std, Fecha, Asistio, Id_Aula) VALUES
