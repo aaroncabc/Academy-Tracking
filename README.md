@@ -2,9 +2,7 @@
 ## importante
 1. vista de actializacion para persona
 2. vista de actualizacion para estudiantes
-3. conectar vista de horario con el backend
 ## en progreso
-- Re hacer la vista de toma de asistencia
 - vista de toma de notas
 
 # Academy-Tracking
