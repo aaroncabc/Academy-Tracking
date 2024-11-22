@@ -9,8 +9,22 @@ export default function HorarioTutor() {
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { data: session,status} = useSession();
+  useEffect(() => {
+    if (status === 'loading') return; // Espera hasta que se cargue la sesión
+
+    if (!session) {
+      router.push('/auth/login'); // Redirige a "/auth/login" si no hay sesión
+    } else {
+      router.push('/tutor/horario'); // Redirige a "/aulas" si la sesión existe
+    }
+  }, [session, status, router]);
+  const id = session?.user?.name?.split(' ')[0];
+  const rol = session?.user?.email?.trim();
 
   interface Evento {
+    tutor: ReactNode;
     grupo: ReactNode;
     gradoT: ReactNode;
     diaSemana: string;
@@ -19,15 +33,18 @@ export default function HorarioTutor() {
     hora_i: string;
     hora_f: string;
   }
-
   const [selectedEvent, setSelectedEvent] = useState<Evento | null>(null); // Para almacenar el evento seleccionado'
   useEffect(() => {
+    if (!id || status === 'loading' || !rol) return;
     async function fetchEventos() {
       try {
-        const response = await fetch('http://localhost:5000/api/getAulasHorario?id_tutor=2');
+        //const url = session?.user?.email?.trim() === 'admin' ? 'http://localhost:5000/api/getAulasHorarioAll': 'http://localhost:5000/api/getAulasHorario?id_tutor='+id;
+        //const  url = 'http://localhost:5000/api/getAulasHorarioAll';
+        const url = rol === "admin" ? 'http://localhost:5000/api/getAulasHorarioAll' : `http://localhost:5000/api/getAulasHorario?id_tutor=${id}`;
+        const response = await fetch(url);
         const data = await response.json();
         setEventos(data);
-        console.log(data);
+        console.log(id);
         setLoading(false);
       } catch (error) {
         console.error("Error al obtener los eventos:", error);
@@ -36,10 +53,12 @@ export default function HorarioTutor() {
     }
 
     fetchEventos();
-  }, []);
+  }, [id,status]);
 
   const diasSemana = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
-  const horario: { [key: string]: { grupoT: string; Institucion: string; hora_i: string; hora_f: string; gradoT: string; grupo: string }[] } = {
+  const horario: { [key: string]: {
+      grupoT: string; Institucion: string; hora_i: string; hora_f: string; gradoT: string; grupo: string, tutor:string
+}[] } = {
     L: [],
     M: [],
     X: [],
@@ -50,9 +69,11 @@ export default function HorarioTutor() {
   };
 
   eventos.forEach(evento => {
-    const { diaSemana, grupoT, Institucion, hora_i, hora_f ,gradoT,grupo } = evento;
+    const { diaSemana, grupoT, Institucion, hora_i, hora_f ,gradoT,grupo,tutor } = evento;
     if (diasSemana.includes(diaSemana)) {
-      horario[diaSemana].push({ grupoT, Institucion, hora_i, hora_f,gradoT, grupo });
+      horario[diaSemana].push({
+          grupoT, Institucion, hora_i, hora_f, gradoT, grupo,tutor
+      });
     } else {
       console.warn(`Día no válido: ${diaSemana}`);
     }
@@ -145,6 +166,7 @@ export default function HorarioTutor() {
                 <p><strong>Codigo:</strong> {selectedEvent.grupo}</p>
                 <p><strong>Grupo:</strong> {selectedEvent.grupoT}</p>
                 <p><strong>Grado:</strong> {selectedEvent.gradoT}</p>
+                <p><strong>Tutor:</strong> {selectedEvent.tutor}</p>
                 <p><strong>Institución:</strong> {selectedEvent.Institucion}</p>
                 <p><strong>Hora de Inicio:</strong> {selectedEvent.hora_i}</p>
                 <p><strong>Hora de Fin:</strong> {selectedEvent.hora_f}</p>

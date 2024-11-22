@@ -84,6 +84,20 @@ def read_all_aulas_horario_byTutor(id_tutor):
         print("Error al leer las aulas:", e)
     finally:
         conn.close()
+        
+def read_all_aulas_horario():
+    año_actual = datetime.now().year
+    query = f"SELECT aula.id_aula,grupoT,institucion.Nombre,año,hora_i,hora_f,dia_i,gradoT,grupo,persona.nombre,persona.apellido1 FROM Aula INNER JOIN institucion on(aula.id_institucion = institucion.id_institucion) INNER JOIN horario ON(aula.id_aula = horario.id_aula) INNER JOIN persona ON (aula.id_persona = persona.id_persona) WHERE año = {año_actual};"
+    conn = get_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+                return [{"id": row[0],"grupoT":row[1],"Institucion":row[2],"hora_i":str(row[4]),"hora_f":str(row[5]),"diaSemana":row[6],"gradoT":row[7],"grupo":row[8],"tutor":f'{row[9].strip()} {row[10]}'} for row in cur.fetchall()]
+    except Exception as e:
+        print("Error al leer las aulas:", e)
+    finally:
+        conn.close()
 
 
 # Leer un registro por Id_Aula
