@@ -65,11 +65,7 @@ const data = {
         {
           title: "Añadir Tutor",
           url: "/admin/cruds/persona",
-        },
-        {
-          title: "Consultar Tutores",
-          url: "#",
-        },
+        }
 
       ],
     },
@@ -81,18 +77,6 @@ const data = {
     {
       title: "Añadir Estudiante",
       url: "/admin/cruds/estudiante",
-    },
-    {
-      title: "Consultar Estudiantes",
-      url: "#",
-    },
-    {
-      title: "Consultar Notas",
-      url: "#",
-    },
-    {
-      title: "Consultar Asistencias",
-      url: "#",
     }
   ],
 },
@@ -106,8 +90,8 @@ const data = {
       url: "/admin/cruds/aula",
     },
     {
-      title: "Actualizar Aulas",
-      url: "#",
+      title: "Añadir horario",
+      url: "/admin/cruds/horario",
     },
   ],
 },
@@ -142,24 +126,10 @@ const data2 = {
     items: [
       {
         title: "Mi semana",
-        url: "#",
+        url: "/tutor/horario",
       }
     ],
-  },{
-      title: "Estudiantes",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Consultar Notas",
-          url: "#",
-        },
-        {
-          title: "Consultar Asistencias",
-          url: "#",
-        }
-      ],
-    },
+  }
   ],
 }
 

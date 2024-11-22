@@ -104,10 +104,10 @@ export default function CrearHorarioPage() {
 
             if (!res.ok) {
                 const errorData = await res.json();
-                setError(errorData.error || "Error inesperado.");
+                setError(errorData.details || "Error inesperado.");
                 await Swal.fire({
                     title: "Error",
-                    text: errorData.error || "No se pudo crear el horario.",
+                    text: errorData.details || "No se pudo crear el horario.",
                     icon: "error",
                     confirmButtonText: "OK",
                 });

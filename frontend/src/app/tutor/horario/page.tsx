@@ -98,7 +98,7 @@ export default function HorarioTutor() {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-3xl font-semibold text-center mb-6">Horario Semanal del Tutor</h1>
+      <h1 className="text-3xl font-semibold text-center mb-6">Horario Semanal</h1>
       
       {loading ? (
         <p className="text-center text-lg">Cargando eventos...</p>

@@ -34,6 +34,16 @@ CREATE TABLE Institucion
  CONSTRAINT PK_2 PRIMARY KEY ( Id_institucion )
 );
 
+CREATE TABLE AsistenciaTutor
+(
+ ID_AT   int NOT NULL,
+ Asistio bool NOT NULL,
+ Motivo  varchar(500) NULL,
+ Id_Aula int NOT NULL,
+ CONSTRAINT PK_8 PRIMARY KEY ( ID_AT ),
+ CONSTRAINT FK_5 FOREIGN KEY ( Id_Aula ) REFERENCES Aula ( Id_Aula )
+);
+
 CREATE TABLE Aula
 (
  Id_Aula        int NOT NULL,
@@ -48,16 +58,6 @@ CREATE TABLE Aula
  CONSTRAINT PK_3 PRIMARY KEY ( Id_Aula ),
  CONSTRAINT FK_9 FOREIGN KEY ( Id_persona ) REFERENCES Persona ( Id_persona ),
  CONSTRAINT FK_10 FOREIGN KEY ( Id_institucion ) REFERENCES Institucion ( Id_institucion )
-);
-
-CREATE TABLE AsistenciaTutor
-(
- ID_AT   int NOT NULL,
- Asistio bool NOT NULL,
- Motivo  varchar(500) NULL,
- Id_Aula int NOT NULL,
- CONSTRAINT PK_8 PRIMARY KEY ( ID_AT ),
- CONSTRAINT FK_5 FOREIGN KEY ( Id_Aula ) REFERENCES Aula ( Id_Aula )
 );
 
 CREATE TABLE Estudiantes

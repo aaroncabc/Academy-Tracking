@@ -41,6 +41,8 @@ function Aula(){
     }, [session, status, router]);
 
     const url = aula ? `http://localhost:5000/api/listaAlumnos?aula=${aula}` : '';
+    const url2 = aula ? `/tomarAsistencia/${aula}` : '';
+    const url3 = aula ? `/VerTomarNotas/${aula}` : '';
     const [data, setData] = useState<EstudianteData[]>([]);
     useEffect(() => {
         fetch(url)  // URL de la API Flask
@@ -65,6 +67,10 @@ function Aula(){
                 )}
             {/* <Button color="primary" href="/studentboard/tests" as={Link}  className="font-semibold">inciar</Button>  */}
         </div>
+        <Flex direction="row" gap="4"> 
+        <Button><a href={url2}>Tomar lista</a></Button>
+        <Button><a href={url3}>Consultar/Actualizar Notas</a></Button>
+        </Flex>
         </form>
       </main>
       </div>

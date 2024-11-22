@@ -1,3 +1,4 @@
+import traceback
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import getAsistencias as ga
@@ -12,10 +13,86 @@ import crudHorario
 import crudAula
 import datetime
 import psycopg2
+from psycopg2.extras import RealDictCursor
+from config import get_connection
 
 app = Flask(__name__)
 CORS(app)  # Esto permite peticiones desde el frontend React
 
+@app.route('/api/notas/<int:id_aula>', methods=['GET', 'POST'])
+def manejar_notas(id_aula):
+    conn = None
+    cursor = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        
+        # Obtener estudiantes y sus notas
+        if request.method == 'GET':
+            query = """
+                SELECT 
+                    e.Id_Std, 
+                    e.Nombre || ' ' || COALESCE(e.Segundo_nombre, '') || ' ' || e.apellido1 || ' ' || e.apellido2 AS Nombre_Completo,
+                    COALESCE(n.Nota_1, 0) AS Nota_1,
+                    COALESCE(n.Nota_2, 0) AS Nota_2,
+                    COALESCE(n.Nota_3, 0) AS Nota_3,
+                    COALESCE(n.Nota_4, 0) AS Nota_4
+                FROM Estudiantes e
+                LEFT JOIN Notas n ON e.Id_Std = n.Id_Estudiante
+                WHERE e.Id_Salon = %s;
+            """
+            cursor.execute(query, (id_aula,))
+            estudiantes = cursor.fetchall()
+            return jsonify(estudiantes), 200
+
+        # Actualizar o crear notas
+        elif request.method == 'POST':
+            data = request.json  # Formato esperado: [{Id_Std, Nota_1, Nota_2, Nota_3, Nota_4}, ...]
+            if not isinstance(data, list):  # Validar que el formato sea una lista
+                raise ValueError("El formato de los datos enviados es incorrecto")
+
+            for estudiante in data:
+                # Validar la presencia de los campos esperados
+                if not all(key in estudiante for key in ['id_std', 'Nota_1', 'Nota_2', 'Nota_3', 'Nota_4']):
+                    raise ValueError("Datos incompletos en uno o más registros")
+                
+                id_std = estudiante['id_std']
+                notas = (
+                    estudiante.get('Nota_1', 0),
+                    estudiante.get('Nota_2', 0),
+                    estudiante.get('Nota_3', 0),
+                    estudiante.get('Nota_4', 0)
+                )
+
+                # Verificar si existen las notas
+                cursor.execute("SELECT Id_Notas FROM Notas WHERE Id_Estudiante = %s", (id_std,))
+                nota_existente = cursor.fetchone()
+
+                if nota_existente:
+                    # Actualizar notas existentes
+                    cursor.execute("""
+                        UPDATE Notas 
+                        SET Nota_1 = %s, Nota_2 = %s, Nota_3 = %s, Nota_4 = %s
+                        WHERE Id_Estudiante = %s
+                    """, (*notas, id_std))
+                else:
+                    cursor.execute("SELECT COALESCE(MAX(id_notas), 0) FROM notas")
+                    last_id = cursor.fetchone()  # fetchone() devuelve una tupla
+                    new_id = last_id.get('coalesce',0)+ 1
+
+                    # Crear nuevas notas
+                    cursor.execute("""
+                        INSERT INTO Notas (id_notas,Nota_1, Nota_2, Nota_3, Nota_4, Id_Estudiante) 
+                        VALUES (%s,%s, %s, %s, %s, %s)
+                    """, (new_id,*notas, id_std))
+            conn.commit()
+            return jsonify({"message": "Notas actualizadas correctamente"}), 200
+
+    except Exception as e:
+        # Loguea el error para depuración
+        print(f"Error: {e}")
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/api/esTutor',methods=['GET'])

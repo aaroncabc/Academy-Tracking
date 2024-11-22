@@ -13,6 +13,7 @@ CREATE TABLE Horario
     CONSTRAINT FK_8 FOREIGN KEY (Id_Aula) REFERENCES Aula (Id_Aula)
 );
 """
+from datetime import datetime
 
 def create_horario(data):
     query = """
@@ -24,9 +25,17 @@ def create_horario(data):
     try:
         with conn:
             with conn.cursor() as cur:
+                # Validar la cantidad de horarios existentes para el aula
+                cur.execute("SELECT COUNT(*) FROM Horario WHERE Id_Aula = %s", (data["Id_Aula"],))
+                count = cur.fetchone()[0]  # Obtenemos el número de horarios existentes
+
+                if count >= 2:
+                    # Si ya hay 2 horarios para esta aula, devolver un error
+                    raise ValueError("Este aula ya tiene 2 horarios asignados.")
+
                 # Obtener el último ID
                 cur.execute("SELECT COALESCE(MAX(Id_H), 0) FROM Horario")
-                last_id = cur.fetchone()[0]  # fetchone() devuelve una tupla
+                last_id = cur.fetchone()[0]
                 new_id = last_id + 1
                 
                 # Agregar el nuevo ID al diccionario
@@ -45,6 +54,7 @@ def create_horario(data):
                 return id_h
     except Exception as e:
         print("Error al crear el horario:", e)
+        raise e  # Vuelve a lanzar la excepción para que sea capturada por el manejador de errores en el endpoint
     finally:
         conn.close()
 
