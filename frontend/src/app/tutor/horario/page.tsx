@@ -44,7 +44,7 @@ export default function HorarioTutor() {
         const response = await fetch(url);
         const data = await response.json();
         setEventos(data);
-        console.log(id);
+        console.log(data);
         setLoading(false);
       } catch (error) {
         console.error("Error al obtener los eventos:", error);
@@ -55,13 +55,13 @@ export default function HorarioTutor() {
     fetchEventos();
   }, [id,status]);
 
-  const diasSemana = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+  const diasSemana = ['L', 'M', 'W', 'J', 'V', 'S', 'D'];
   const horario: { [key: string]: {
       grupoT: string; Institucion: string; hora_i: string; hora_f: string; gradoT: string; grupo: string, tutor:string
 }[] } = {
     L: [],
     M: [],
-    X: [],
+    W: [],
     J: [],
     V: [],
     S: [],

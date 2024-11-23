@@ -14,6 +14,8 @@ CREATE TABLE Horario
 );
 """
 from datetime import datetime
+from datetime import datetime
+
 def create_horario(data):
     query = """
     INSERT INTO Horario (Id_H, Hora_i, Hora_f, Dia_I, Dia_text, Id_Aula)
@@ -41,15 +43,21 @@ def create_horario(data):
                 """, (data["Id_Aula"],))
                 horarios_existentes = cur.fetchall()
 
+                # Transformar las cadenas de horas a objetos datetime
+                def str_to_time(time_str):
+                    return datetime.strptime(time_str, "%H:%M")  # Formato esperado: HH:MM
+
                 # Calcular la duración total actual en minutos
                 duracion_total_existente = sum(
-                    (hora_f - hora_i).total_seconds() / 60 
+                    (str_to_time(hora_f) - str_to_time(hora_i)).total_seconds() / 60 
                     for hora_i, hora_f in horarios_existentes
                 )
 
+                # Transformar las horas del nuevo horario
+                hora_i = str_to_time(data["Hora_i"])
+                hora_f = str_to_time(data["Hora_f"])
+
                 # Calcular la duración del nuevo horario
-                hora_i = data["Hora_i"]
-                hora_f = data["Hora_f"]
                 nueva_duracion = (hora_f - hora_i).total_seconds() / 60
 
                 # Sumar la duración existente con la del nuevo horario
@@ -88,7 +96,7 @@ def create_horario(data):
         print("Error al crear el horario:", e)
         raise e  # Vuelve a lanzar la excepción para que sea capturada por el manejador de errores en el endpoint
     finally:
-        conn.close()
+        conn.close() 
 
 
 # Leer todos los horarios
@@ -151,22 +159,3 @@ def delete_horario(id_h):
     finally:
         conn.close()
 
-# Ejemplo de uso
-if __name__ == "__main__":
-    # Crear un horario
-    nuevo_horario = ('08:00:00', '10:00:00', 'L', 'Lunes', 1, 1)
-    id_h = create_horario(nuevo_horario)
-
-    # Leer todos los horarios
-    horarios = read_all_horarios()
-    print(horarios)
-
-    # Leer un horario por Id
-    horario = read_horario_by_id(id_h)
-    print(horario)
-
-    # Actualizar un horario
-    update_horario(id_h, ('09:00:00', '11:00:00', 'M', 'Martes', 2, 2))
-
-    # Eliminar un horario
-    delete_horario(id_h)
